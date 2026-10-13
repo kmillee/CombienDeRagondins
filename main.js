@@ -3,6 +3,7 @@
 
 // --- Configuration et données ---
 const playerCount = 4;
+const maxRounds = 4;
 let objectiveRange = 10;
 
 let champions = [
@@ -20,6 +21,8 @@ let round = null;
 
 // --- Evenements de la page ---
 document.getElementById("setupPlayer").addEventListener("submit", async event => {
+    document.getElementById("title").classList.add("hidden");
+
     event.preventDefault(); // empeche reload de la page
 
     const formData = new FormData(event.currentTarget);
@@ -59,6 +62,17 @@ document.getElementById("openScores").addEventListener("click", () => {
 
 document.getElementById("closeScores").addEventListener("click", () => {
     document.getElementById("scoresDialog").close();
+});
+
+// Bouton "je suis pret" de l'overlay
+document.getElementById("readyForTurn").addEventListener("click", () => {
+    round.ready = true;
+    document.getElementById("turnOverlay").close();
+    renderTurn();
+});
+
+document.getElementById("turnOverlay").addEventListener("cancel", event => {
+    event.preventDefault();
 });
 
 
@@ -136,21 +150,76 @@ function startRound() {
         })),
         currentContributor: 0,
         modifiers: [],
-        // false : l'écran attend que le joueur prenne le téléphone ; true : il peut saisir.
+        // false : l'overlay attend le joueur ; true : il peut saisir.
         ready: false
     };
 
     console.log(round);
+
+    const turnPanel = document.getElementById("turnPanel");
     
+
     document.getElementById("roundLabel").textContent = `Manche ${roundNumber}`;
-    document.getElementById("resultPanel").classList.add("hidden");
+    document.getElementById("introPanel").classList.remove("hidden");
     document.getElementById("turnPanel").classList.remove("hidden");
+    document.getElementById("resultPanel").classList.add("hidden");
+    document.getElementById("gameTopline").classList.add("hidden");
+    document.getElementById("characterSection").classList.add("hidden");
+  
     document.getElementById("scorePanel").classList.add("hidden");
     renderScores();
     renderCharacters();
-    renderTurn();
+
+    const monarchDescription = createElement("p", "turn-copy", "");
+    monarchDescription.append(
+        createElement("strong", "", players[monarchIndex].name),
+        document.createTextNode(", tu es le Monarque.")
+    );
+
+    turnPanel.replaceChildren(
+        createElement("p", "eyebrow", `MANCHES ${roundNumber} SUR ${maxRounds}`),
+        createElement("h2", "turn-title", "Le monarque est choisi !"),
+        monarchDescription,
+        createElement("p", "turn-copy", "Il te revient de gérer les troupes, tes conseillers sont là pour t'aider à faire un choix... qu'il soit bon ou non.")
+    );
+    turnPanel.append(createElement("button", "button", "Prêt à en découdre !"));
+
+    let beginButton = turnPanel.querySelector("button");
+    beginButton.addEventListener("click", () => {
+        turnPanel.replaceChildren();
+        revealMatch();
+    });
 }
 
+function revealMatch() {
+    document.getElementById("gameTopline").classList.remove("hidden");
+    document.getElementById("characterSection").classList.remove("hidden");
+
+    const championDescription = createElement("p", "turn-copy", "");
+    championDescription.append(
+        document.createTextNode("Vos éclaireurs ont repéré "),
+        createElement("strong", "", round.champion.name),
+        document.createTextNode(" sur notre territoire. Ils ont rapporté de précieux renseignements tactiques.")
+    );
+
+    document.getElementById("introPanel").replaceChildren(
+        createElement("p", "eyebrow", `MANCHES ${roundNumber} SUR ${maxRounds}`),
+        createElement("h2", "turn-title", "L'intrus est identifié' !"),
+        championDescription
+    );
+
+    document.getElementById("ragondinCharacterPanel").classList.add("hidden");
+
+    let beginButton = document.getElementById("turnPanel").querySelector("button");
+    beginButton.text = "Demander l'avis des conseillers";
+    beginButton.removeEventListener("click", revealMatch);
+    beginButton.addEventListener("click", () => {
+        document.getElementById("introPanel").classList.add("hidden");
+        turnPanel.replaceChildren();
+        revealMatch();
+    });
+    renderTurn();
+}
 
 // --- Affichage ---
 
@@ -200,14 +269,26 @@ function renderScores() {
 }
 
 function renderTurn() {
+    document.getElementById("ragondinCharacterPanel").classList.remove("hidden");
+
     const turnPanel = document.getElementById("turnPanel");
+    turnPanel.classList.remove("hidden");
     turnPanel.replaceChildren();
 
-        // Les trois conseillers jouent d'abord ; le monarque intervient quand ils ont tous contribué.
-        if (round.currentContributor < round.contributors.length) {
-                renderContributorTurn(turnPanel);
+    if (!round.ready) {
+        const nextPlayer = round.currentContributor < round.contributors.length
+            ? round.contributors[round.currentContributor].player
+            : players[round.monarchIndex];
+        document.getElementById("turnOverlayTitle").textContent = `Joueur suivant : ${nextPlayer.name}`;
+        document.getElementById("turnOverlay").showModal();
+        return;
+    }
+
+    // Les trois conseillers jouent d'abord ; le monarque intervient quand ils ont tous contribué.
+    if (round.currentContributor < round.contributors.length) {
+        renderContributorTurn(turnPanel);
     } else {
-                renderJudgeTurn(turnPanel);
+        renderDebateTurn(turnPanel);
     }
 }
 
@@ -215,16 +296,11 @@ function renderTurn() {
 
 function renderContributorTurn(container) {
     const contributor = round.contributors[round.currentContributor];
-    const heading = round.ready
-                    ? `À toi, ${contributor.player.name}`
-                    : `Passez le téléphone à ${contributor.player.name}`;
 
     const step = createElement("p", "eyebrow", `CONSEILLER ${round.currentContributor + 1} SUR ${playerCount-1}`);
-    const title = createElement("h2", "turn-title", heading);
+    const title = createElement("h2", "turn-title", `À toi, ${contributor.player.name}`);
 
-    const description = createElement("p", "turn-copy", round.ready
-                        ? "Ajouter un modificateur pour te rapprocher de ton objectif."
-                        : "Ton objectif est secret, appuie quand tu es seul·e à regarder l'écran.");
+    const description = createElement("p", "turn-copy", "Ajoute un modificateur pour te rapprocher de ton objectif secret.");
 
     const modifierInstruction = createElement(
         "p",
@@ -233,14 +309,6 @@ function renderContributorTurn(container) {
     );
 
     container.append(step, title, description, modifierInstruction);
-    if (!round.ready) {
-        container.append(makeButton("Je suis prêt·e", () => {
-            round.ready = true;
-            renderTurn();
-        }));
-        return;
-    }
-
 
     // L'objectif est révélé seulement après confirmation, pour rester privé des autres joueurs.
     const objective = document.createElement("div");
@@ -261,7 +329,6 @@ function renderContributorTurn(container) {
     input.required = true;
     label.append(input);
 
-
     const submitButton = makeButton("Transmettre au suivant", () => {});
     submitButton.type = "submit";
     form.append(label, submitButton);
@@ -278,32 +345,23 @@ function renderContributorTurn(container) {
         renderCharacters();
         renderTurn();
     });
-    container.append(modifierInstruction,objective, form);  
+    container.append(objective, form);
 
     input.focus();
 }
 
 function renderDebateTurn(container){
     // On donne un timer propre à chaque joueur 
+    renderJudgeTurn(turnPanel);
+
 }
 
 function renderJudgeTurn(container) {
     const judge = players[round.monarchIndex];
-    const isReady = round.ready;
     container.append(
-    createElement("h2", "turn-title", isReady ? `À toi de trancher, ${judge.name}` : `Passez le téléphone à ${judge.name}`),
-    createElement("p", "turn-copy", isReady
-        ? ""
-        : "Les modificateurs des personnages sont visibles. Les autres joueurs détournent le regard.")
+        createElement("h2", "turn-title", `À toi de trancher, ${judge.name}`),
+        createElement("p", "turn-copy", "Les modificateurs des personnages sont visibles. Les autres joueurs détournent le regard.")
     );
-
-    if (!isReady) {
-        container.append(makeButton("Le monarque rend sa décision !", () => {
-            round.ready = true;
-            renderTurn();
-        }));
-        return;
-    }
 
     const form = document.createElement("form");
     form.className = "guess-form";

@@ -11,10 +11,22 @@
   <div class="page">
 
     <main>
-      <section class="intro" aria-labelledby="title">
         <h1 id="title">Combien de ragondins ?</span></h1>
-        <p class="lede">Des intrus qui pataugent dans nos étangs ? Le monarque n'en restera pas là.
-        </br> <strong>Mais combien de ragondins va-t-il envoyer ?</strong> </p>
+
+      <section id="introPanel" class="intro hidden" aria-labelledby="title">
+        <!-- <p class="lede">Des intrus qui pataugent dans nos étangs ? Le monarque n'en restera pas là.
+        </br> <strong>Mais combien de ragondins va-t-il envoyer ?</strong> </p> -->
+        <p class="lede"><strong>Combien faut-il de ragondins pour battre Georges Clooney ?</strong> Et s’il a une armure en fer ? 
+Et la mononucléose ?
+        </br> 
+        <p class="lede">Des <strong>intrus</strong> pataugent dans les étangs du Royaume. Le <strong>Monarque des Ragondins</strong> ne peut pas l’accepter.
+        </br> 
+        <p class="lede">Les éclaireurs du Monarque rapportent ce qu’il se passe dans le Royaume, et les intrus qui osent le défier.
+        </br> 
+        <p class="lede">Vous incarnez les <strong>conseillèr.es du Monarque</strong>. 
+        </br> 
+        <p class="lede">Vous devez aider le Monarque à estimer le <strong>nombre de ragondins optimal</strong> pour battre les intrus... quitte à mentir un peu.
+
       </section>
 
 
@@ -41,7 +53,7 @@
 
       <!-- Section de jeu -->
       <section class="game hidden" id="gamePanel" aria-live="polite">
-        <div class="game-topline">
+        <div class="game-topline" id="gameTopline">
           <p class="round-label" id="roundLabel">Manche #1</p>
           <div class="game-actions">
             <button class="text-button" id="openScores" type="button">Scores</button>
@@ -54,7 +66,7 @@
           <div class="score-list" id="scoreList"></div>
         </section>
 
-        <section class="characters" aria-label="Personnages de la manche">
+        <section class="characters" id="characterSection" aria-label="Personnages de la manche">
           <article class="character-panel">
             <div class="character-layout">
               <img id="championImage" src="pingu.jpg" alt="" />
@@ -67,7 +79,7 @@
             </div>
           </article>
 
-          <article class="character-panel">
+          <article class="character-panel" id="ragondinCharacterPanel">
             <div class="character-layout">
               <img id="ragondinImage" src="ragondin.jpg" alt="" />
               <div class="character-details">
@@ -80,6 +92,11 @@
           </article>
         </section>
 
+        <dialog class="turn-overlay" id="turnOverlay" aria-labelledby="turnOverlayTitle">
+          <p class="eyebrow">À votre tour</p>
+          <h2 class="turn-title" id="turnOverlayTitle"></h2>
+          <button class="button" id="readyForTurn" type="button">Je suis prêt·e</button>
+        </dialog>
         <section class="turn-panel" id="turnPanel"></section>
         <section class="result-panel hidden" id="resultPanel"></section>
 
