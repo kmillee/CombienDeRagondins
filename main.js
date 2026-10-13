@@ -17,6 +17,7 @@ let malus = [];
 let players = [];       // contient {nom, score} des joueurs
 let roundNumber = 1;    // manche en cours
 let round = null;            
+let debateTimerInterval = null;
 
 
 // --- Evenements de la page ---
@@ -52,6 +53,7 @@ document.getElementById("setupPlayer").addEventListener("submit", async event =>
 });
 
 document.getElementById("newGame").addEventListener("click", () => {
+    clearDebateInterval();
     document.getElementById("gamePanel").classList.add("hidden");
     document.getElementById("setupPanel").classList.remove("hidden");
 });
@@ -126,6 +128,8 @@ function chooseChampion(roundNumber){
 
 }
 function startRound() {
+    clearDebateInterval();
+
     // fait tourner le rôle du monarque entre les 4 joueurs
     const monarchIndex = (roundNumber - 1) % playerCount;
 
@@ -150,6 +154,9 @@ function startRound() {
         })),
         currentContributor: 0,
         modifiers: [],
+        firstGuess: null,       // premiere estimation du MJ 
+        debateTimers: [],
+        activeDebateTimerIndex: null,
         // false : l'overlay attend le joueur ; true : il peut saisir.
         ready: false
     };
@@ -204,21 +211,19 @@ function revealMatch() {
 
     document.getElementById("introPanel").replaceChildren(
         createElement("p", "eyebrow", `MANCHES ${roundNumber} SUR ${maxRounds}`),
-        createElement("h2", "turn-title", "L'intrus est identifié' !"),
+        createElement("h2", "turn-title", "L'intrus est identifié !"),
         championDescription
     );
 
+    // cache panneau ragondin
     document.getElementById("ragondinCharacterPanel").classList.add("hidden");
 
-    let beginButton = document.getElementById("turnPanel").querySelector("button");
-    beginButton.text = "Demander l'avis des conseillers";
-    beginButton.removeEventListener("click", revealMatch);
-    beginButton.addEventListener("click", () => {
+    const beginButton = makeButton("Demander l'avis des conseillers", () => {
         document.getElementById("introPanel").classList.add("hidden");
-        turnPanel.replaceChildren();
-        revealMatch();
+        document.getElementById("turnPanel").replaceChildren();
+        renderTurn();
     });
-    renderTurn();
+    document.getElementById("turnPanel").replaceChildren(beginButton);
 }
 
 // --- Affichage ---
@@ -287,6 +292,8 @@ function renderTurn() {
     // Les trois conseillers jouent d'abord ; le monarque intervient quand ils ont tous contribué.
     if (round.currentContributor < round.contributors.length) {
         renderContributorTurn(turnPanel);
+    } else if (round.firstGuess === null) {
+        renderJudgeTurn(turnPanel);
     } else {
         renderDebateTurn(turnPanel);
     }
@@ -350,23 +357,71 @@ function renderContributorTurn(container) {
     input.focus();
 }
 
-function renderDebateTurn(container){
-    // On donne un timer propre à chaque joueur 
-    renderJudgeTurn(turnPanel);
+function renderDebateTurn(container) {
+    container.append(
+        createElement("h2", "turn-title", "Débat des conseillers"),
+        createElement("p", "turn-copy", `Le monarque a fait sa première estimation, mais arrange-t-elle les conseillers ? Vous pouvez encore tourner le vent en votre faveur.`)
+    );
 
+
+    // --- GESTION DES TIMERS ---
+    const timers = createElement("div", "debate-timers", "");
+    round.contributors.forEach((contributor, index) => {
+        const button = document.createElement("button");
+        button.className = "debate-timer";
+        button.type = "button";
+        button.id = `debateTimer${index}`;
+        button.setAttribute("aria-pressed", "false");
+        button.append(
+            createElement("span", "debate-timer-player", contributor.player.name),
+            createElement("strong", "debate-timer-time", "01:00"),
+            createElement("span", "debate-timer-action", "Démarrer")
+        );
+        button.addEventListener("click", () => toggleDebateTimer(index));
+        timers.append(button);
+    });
+    container.append(timers);
+
+    const form = document.createElement("form");
+    form.className = "guess-form";
+
+    const label = createElement("label", "", "Estimation finale du monarque");
+    const input = document.createElement("input");
+    input.type = "number";
+    input.name = "guess";
+    input.min = "0";
+    input.max = "1000000";
+    input.step = "1";
+    input.required = true;
+    input.inputMode = "numeric";
+    label.append(input);
+
+    const submitButton = makeButton("Envoyer les troupes !", () => {});
+    submitButton.type = "submit";
+    form.append(label, submitButton);
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+        const guess = Number(input.value);
+        if (!Number.isInteger(guess) || guess < 0) return;
+        finishRound(guess);
+    });
+    container.append(form);
 }
 
 function renderJudgeTurn(container) {
     const judge = players[round.monarchIndex];
     container.append(
         createElement("h2", "turn-title", `À toi de trancher, ${judge.name}`),
-        createElement("p", "turn-copy", "Les modificateurs des personnages sont visibles. Les autres joueurs détournent le regard.")
+        document.createTextNode("Tu peux faire une première estimation du nombre de ragondins à envoyer. N'hésite pas à partager ton raisonnement avec tes conseillers "),
+        createElement("strong", "", "sans réveler ton nombre"),
+        document.createTextNode(".")
+
     );
 
     const form = document.createElement("form");
     form.className = "guess-form";
 
-    const label = createElement("label", "", "Combien de ragondins ?");
+    const label = createElement("label", "", "Combien de ragondins envoyer ?");
 
     const input = document.createElement("input");
     input.type = "number";
@@ -387,7 +442,7 @@ function renderJudgeTurn(container) {
         event.preventDefault();
         const guess = Number(input.value);
         if (!Number.isInteger(guess) || guess < 0) return;
-        finishRound(guess);
+        startDebate(guess);
     });
 
     container.append(form);
@@ -395,26 +450,101 @@ function renderJudgeTurn(container) {
 }
 
 
+
+// --- DEBATE MANAGEMENT ---
+function startDebate(firstGuess) {
+    round.firstGuess = firstGuess;
+    round.debateTimers = round.contributors.map(() => 60);
+    round.activeDebateTimerIndex = null;
+    document.getElementById("introPanel").classList.add("hidden");
+    document.getElementById("characterSection").classList.remove("hidden");
+    document.getElementById("ragondinCharacterPanel").classList.remove("hidden");
+    renderTurn();
+}
+
+function toggleDebateTimer(index) {
+    if (round.debateTimers[index] === 0) return;
+
+    clearDebateInterval();
+    if (round.activeDebateTimerIndex === index) {
+        round.activeDebateTimerIndex = null;
+    } else {
+        round.activeDebateTimerIndex = index;
+        debateTimerInterval = setInterval(() => {
+            round.debateTimers[index] = Math.max(0, round.debateTimers[index] - 1);
+            if (round.debateTimers[index] === 0) {
+                clearDebateInterval();
+                round.activeDebateTimerIndex = null;
+            }
+            updateDebateTimerButtons();
+        }, 1000);
+    }
+    updateDebateTimerButtons();
+}
+
+function clearDebateInterval() {
+    if (debateTimerInterval !== null) {
+        clearInterval(debateTimerInterval);
+        debateTimerInterval = null;
+    }
+}
+
+function updateDebateTimerButtons() {
+    round.contributors.forEach((contributor, index) => {
+        const button = document.getElementById(`debateTimer${index}`);
+        if (!button) return;
+
+        const seconds = round.debateTimers[index];
+        const isActive = round.activeDebateTimerIndex === index;
+        button.setAttribute("aria-pressed", String(isActive));
+        button.classList.toggle("active", isActive);
+        button.disabled = seconds === 0;
+        button.querySelector(".debate-timer-time").textContent = formatTimer(seconds);
+        button.querySelector(".debate-timer-action").textContent = seconds === 0
+            ? "Terminé"
+            : isActive ? "Pause" : "Démarrer";
+    });
+}
+
+function formatTimer(seconds) {
+    return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+
 // --- Resultat et attribution des points ---
 
 function finishRound(guess) {
-    // écart entre la réponse du monarque et les joeurs
-    const distances = round.contributors.map(contributor => Math.abs(contributor.objective - guess));
-    const closestDistance = Math.min(...distances);
+    clearDebateInterval();
+    const initialOutcome = getRoundOutcome(round.firstGuess);
+    const finalOutcome = getRoundOutcome(guess);
+    const initialWinnerIndexes = initialOutcome.winners.map(winner => winner.index).sort((a, b) => a - b);
+    const finalWinnerIndexes = finalOutcome.winners.map(winner => winner.index).sort((a, b) => a - b);
+    const winnerChanged = initialWinnerIndexes.length !== finalWinnerIndexes.length
+        || initialWinnerIndexes.some((index, winnerIndex) => index !== finalWinnerIndexes[winnerIndex]);
 
-    // 2pts pour le gagnant, 1pt en cas d'égalité entre 2j
-    const winners = round.contributors.filter((contributor, index) => distances[index] === closestDistance);
-    
-    winners.forEach(winner => winners.length>1 ? players[winner.index].score++ : players[winner.index].score+=2);
+    finalOutcome.winners.forEach(winner => {
+        players[winner.index].score += finalOutcome.winners.length > 1 ? 1 : 2;
+        if (winnerChanged) players[winner.index].score++;
+    });
     renderScores();
+
 
     // afficher les scores
     document.getElementById("scorePanel").classList.remove("hidden");
     document.getElementById("turnPanel").classList.add("hidden");
-    renderResult(guess, distances, winners);
+    renderResult(guess, finalOutcome.distances, finalOutcome.winners, winnerChanged);
 }
 
-function renderResult(guess, distances, winners) {
+function getRoundOutcome(guess) {
+    const distances = round.contributors.map(contributor => Math.abs(contributor.objective - guess));
+    const closestDistance = Math.min(...distances);
+    const winners = round.contributors.filter((contributor, index) => distances[index] === closestDistance);
+    return { distances, winners };
+}
+
+function renderResult(guess, distances, winners, winnerChanged) {
+    const prevWinner = getRoundOutcome(round.firstGuess).winners;
+
     const result = document.getElementById("resultPanel");
     result.replaceChildren();
     result.classList.remove("hidden");
@@ -422,7 +552,11 @@ function renderResult(guess, distances, winners) {
     result.append(
         createElement("p", "eyebrow", "RÉSULTAT DE LA MANCHE"),
         createElement("h2", "turn-title", winners.length > 1 ? `Égalité : ${winnerNames}` : `${winnerNames} marque un point !`),
-        createElement("p", "turn-copy", `Le monarque enverra ${guess} ragondin${guess === 1 ? "" : "s"}.`)
+        createElement("p", "turn-copy", `Première estimation : ${round.firstGuess}.`),
+        createElement("p", "turn-copy", `Estimation finale : ${guess} ragondin${guess === 1 ? "" : "s"}.`),
+        winnerChanged
+            ? createElement("p", "debate-bonus", `Manigance !! Le débat a changé le vainqueur : ${winnerNames} gagne${winners.length > 1 ? "nt chacun" : ""} 1 point bonus pour avoir volé la victoire de ${prevWinner.map(winner => players[winner.index].name).join(" et ")}.`)
+            : createElement("p", "turn-copy", "Le débat n'a pas changé le vainqueur.")
     );
 
     const recap = document.createElement("div");

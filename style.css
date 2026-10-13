@@ -356,6 +356,62 @@ button:focus-visible {
   gap: 10px;
 }
 
+.debate-timers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0 18px;
+}
+
+.debate-timer {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  color: inherit;
+  background: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.debate-timer.active {
+  border-color: #536b45;
+  background: #f4f6ef;
+}
+
+.debate-timer:disabled {
+  color: #666;
+  cursor: default;
+}
+
+.debate-timer-player,
+.debate-timer-action {
+  overflow-wrap: anywhere;
+}
+
+.debate-timer-player {
+  font-weight: 700;
+}
+
+.debate-timer-time {
+  font-size: 1.4rem;
+}
+
+.debate-timer-action {
+  color: #536b45;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.debate-bonus {
+  margin: 6px 0 14px;
+  color: #536b45;
+  font-weight: 700;
+}
+
 .modifier-form label,
 .guess-form label {
   display: grid;
@@ -409,6 +465,10 @@ button:focus-visible {
   }
 
   .guess-form {
+    grid-template-columns: 1fr;
+  }
+
+  .debate-timers {
     grid-template-columns: 1fr;
   }
 
