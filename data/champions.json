@@ -1,0 +1,198 @@
+[
+    {
+        "name": "Georges Clooney",
+        "image": "clooney.jpg",
+        "taille": 180,
+        "poids": 80,
+        "description": "Acteur étasunien",
+        "niveau": 1
+    },
+    {
+        "name": "Pingu",
+        "image": "pingu.jpg",
+        "description": "Petit manchot qui vit au Pôle Sud",
+        "niveau": 1
+    },
+    {
+        "name": "Meryl Streep",
+        "image": "streep.jpg",
+        "taille": 168,
+        "poids": 80,
+        "description": "Actrice",
+        "niveau": 1
+    },
+    {
+        "name": "Elon Musk",
+        "image": "musk.jpg",
+        "taille": 188,
+        "poids": 80,
+        "description": "Homme d'affaire",
+        "niveau": 1
+    },
+    {
+        "name": "Oprah Winfrey",
+        "image": "winfrey.jpg",
+        "taille": 170,
+        "poids": 85,
+        "description": "Femme d'affaire",
+        "niveau": 1
+    },
+    {
+        "name": "Simon Cowell",
+        "image": "cowell.jpg",
+        "taille": 180,
+        "poids": 85,
+        "description": "Juge X Factor",
+        "niveau": 1
+    },
+    {
+        "name": "Paula Abdul",
+        "image": "abdul.jpg",
+        "taille": 160,
+        "poids": 55,
+        "description": "Juge American Idol\r\n",
+        "niveau": 1
+    },
+    {
+        "name": "Gordon Ramsay",
+        "image": "ramsay.jpg",
+        "taille": 178,
+        "poids": 85,
+        "description": "Chef à la télé\r",
+        "niveau": 1
+    },
+    {
+        "name": "Julia Child",
+        "image": "child.jpg",
+        "taille": 193,
+        "poids": 75,
+        "description": "Chefe à la télé",
+        "niveau": 1
+    },
+    {
+        "name": "Vernon Dursley",
+        "image": "dursley.jpg",
+        "taille": 185,
+        "poids": 110,
+        "description": "Tonton à Harry Potter\r\n",
+        "niveau": 1
+    },
+    {
+        "name": "Tante May",
+        "image": "may.jpg",
+        "taille": 165,
+        "poids": 60,
+        "description": "Tatie à Spider-man",
+        "niveau": 1
+    },
+    {
+        "name": "Phil",
+        "image": "phil.jpg",
+        "taille": 186,
+        "poids": 80,
+        "description": "Comentateur météo, Groundhog Day",
+        "niveau": 1
+    },
+    {
+        "name": "Amélie Poulain",
+        "image": "poulain.jpg",
+        "taille": 160,
+        "poids": 60,
+        "description": "Petite dame excentrique à paris",
+        "niveau": 1
+    },
+    {
+        "name": "Terrence Fletcher",
+        "image": "fletcher.jpg",
+        "taille": 180,
+        "poids": 60,
+        "description": "Professeur de musique cruel, Whiplash",
+        "niveau": 1
+    },
+    {
+        "name": "Circei Lannister",
+        "image": "lannister.jpg",
+        "taille": 170,
+        "poids": 60,
+        "description": "Reine cruelle de Westeros, Game of Thrones",
+        "niveau": 1
+    },
+    {
+        "name": "Margaret Tatcher",
+        "image": "tatcher.jpg",
+        "taille": 163,
+        "poids": 60,
+        "description": "Première ministre du Royaume Uni",
+        "niveau": 1
+    },
+    {
+        "name": "Joe Biden",
+        "image": "biden.jpg",
+        "taille": 182,
+        "poids": 85,
+        "description": "Président USA",
+        "niveau": 1
+    },
+    {
+        "name": "Lady Gaga",
+        "image": "gaga.jpg",
+        "taille": 157,
+        "poids": 55,
+        "description": "Chanteuse populaire",
+        "niveau": 1
+    },
+    {
+        "name": "Ed Sheeran",
+        "image": "sheeran.jpg",
+        "taille": 173,
+        "poids": 65,
+        "description": "Chanteur populaire",
+        "niveau": 1
+    },
+    {
+        "name": "Cléopatre",
+        "image": "cleopatre.jpg",
+        "taille": "160?",
+        "poids": 50,
+        "description": "Reine d'égypte",
+        "niveau": 1
+    },
+    {
+        "name": "Napoleon",
+        "image": "napoleon.jpg",
+        "taille": 168,
+        "poids": 65,
+        "description": "Empereur de France",
+        "niveau": 1
+    },
+    {
+        "name": "Cruella",
+        "image": "cruella.jpg",
+        "taille": 170,
+        "poids": 60,
+        "description": "Fashion designer, les 101 dalmatiens",
+        "niveau": 1
+    },
+    {
+        "name": "Al",
+        "image": "al.jpg",
+        "taille": 175,
+        "poids": 85,
+        "description": "Collectionneur de jouets vintage, Toy Story 2",
+        "niveau": 1
+    },
+    {
+        "name": "Gollum",
+        "image": "gollum.jpg",
+        "taille": 100,
+        "poids": 30,
+        "description": "Hobbit sauvage ",
+        "niveau": 2
+    },
+    {
+        "name": "Sorcière de l'ouest",
+        "description": "Passionée de plantes",
+        "image": "ouest.jpg",
+        "niveau": 2
+    }
+]

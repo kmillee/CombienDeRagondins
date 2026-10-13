@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combien de ragondins ?!</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <div class="page">
+
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <h1 id="title">Combien de ragondins ?</span></h1>
+        <p class="lede">Des intrus qui pataugent dans nos étangs ? Le monarque n'en restera pas là.
+        </br> <strong>Mais combien de ragondins va-t-il envoyer ?</strong> </p>
+      </section>
+
+
+      <!-- Grille pour joueurs -->
+      <section class="panel setup" id="setupPanel" aria-labelledby="setupTitle">
+        <div class="panel-heading">
+          <div>
+            <h2 id="setupTitle">Qui joue ?</h2>
+          </div>
+          <span class="player-count">4 JOUEURS</span>
+        </div>
+
+        <!-- Ecran de configuration des joueurs -->
+        <form id="setupPlayer">
+          <div class="name-grid">
+            <label><input name="player1"  maxlength="20" required placeholder="Joueur 1"/></label>
+            <label><input name="player2"  maxlength="20" required placeholder="Joueur 2"/></label>
+            <label><input name="player3"  maxlength="20" required placeholder="Joueur 3"/></label>
+            <label><input name="player4"  maxlength="20" required placeholder="Joueur 4"/></label>
+          </div>
+          <button class="button button-primary" type="submit">Commencer</button>
+        </form>
+      </section>
+
+      <!-- Section de jeu -->
+      <section class="game hidden" id="gamePanel" aria-live="polite">
+        <div class="game-topline">
+          <p class="round-label" id="roundLabel">Manche #1</p>
+          <div class="game-actions">
+            <button class="text-button" id="openScores" type="button">Scores</button>
+            <button class="text-button" id="newGame" type="button">Nouvelle partie</button>
+          </div>
+        </div>
+
+        <section class="score-panel hidden" id="scorePanel" aria-labelledby="scoreTitle">
+          <div class="score-heading"><h2 id="scoreTitle">Les scores</h2></div>
+          <div class="score-list" id="scoreList"></div>
+        </section>
+
+        <section class="characters" aria-label="Personnages de la manche">
+          <article class="character-panel">
+            <div class="character-layout">
+              <img id="championImage" src="pingu.jpg" alt="" />
+              <div class="character-details">
+                <h2 id="championName">Champion</h2>
+                <span id="championDescription" class="description">Petit manchot du Pôle Sud</span>
+                <h3>Modificateurs</h3>
+                <ul id="championMods"></ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="character-panel">
+            <div class="character-layout">
+              <img id="ragondinImage" src="ragondin.jpg" alt="" />
+              <div class="character-details">
+                <h2 id="ragondinName">Les ragondins</h2>
+                <span id="ragondinDescription" class="description">Soldat Rongeur</span>
+                <h3>Modificateurs</h3>
+                <ul id="ragondinMods"></ul>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="turn-panel" id="turnPanel"></section>
+        <section class="result-panel hidden" id="resultPanel"></section>
+
+        <dialog class="score-dialog" id="scoresDialog" aria-labelledby="scoresDialogTitle">
+          <div class="dialog-heading">
+            <h2 id="scoresDialogTitle">Les scores</h2>
+            <button class="text-button" id="closeScores" type="button">Fermer</button>
+          </div>
+          <div class="score-list" id="modalScoreList"></div>
+        </dialog>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
