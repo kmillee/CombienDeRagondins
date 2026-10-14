@@ -1,10 +1,10 @@
 [
     {
-        "name": "Embonpoint",
+        "name": "Maladie cardiovasculaire",
         "level": 1
     },
     {
-        "name": " Déficite d’attention",
+        "name": "Déficit d’attention",
         "level": 1
     },
     {
@@ -16,7 +16,7 @@
         "level": 1
     },
     {
-        "name": " Rabat joies/râleurs",
+        "name": " Rabat-joie",
         "level": 1
     },
     {
@@ -24,7 +24,7 @@
         "level": 1
     },
     {
-        "name": " arrogants",
+        "name": " Arrogant",
         "level": 1
     },
     {
@@ -36,11 +36,12 @@
         "level": 1
     },
     {
-        "name": " Constipationist",
-        "level": 1
+        "name": " Conspirationiste",
+        "level": 1,
+        "undefined": "mvt religieux?"
     },
     {
-        "name": " Endettés",
+        "name": " Endetté",
         "level": 1
     },
     {
@@ -76,7 +77,8 @@
         "level": 1
     },
     {
-        "name": "Moche selon les standards de la société",
+        "name": "Moche (selon les standards de la société)",
+        "category": "Apparence",
         "level": 1
     },
     {
@@ -88,7 +90,7 @@
         "level": 2
     },
     {
-        "name": " Kleptomanes",
+        "name": " Kleptomane",
         "level": 2
     },
     {
@@ -156,11 +158,11 @@
         "level": 2
     },
     {
-        "name": " Schizophrènes",
+        "name": "psychotique",
         "level": 3
     },
     {
-        "name": " Bipolaires",
+        "name": "instable",
         "level": 3
     },
     {

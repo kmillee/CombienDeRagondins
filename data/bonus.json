@@ -1,44 +1,258 @@
 [
     {
-        "name": "Connaît la langue des signes"
+        "name": "Connaît la langue des signes",
+        "level": 1
     },
     {
-        "name": "Pratique la méditation"
+        "name": "Pratique la méditation",
+        "level": 1
     },
     {
-        "name": "Synesthésie"
+        "name": "Synesthésie",
+        "level": 1
     },
     {
-        "name": "Cuisine très bien"
+        "name": "Cuisine très bien",
+        "level": 1
     },
     {
-        "name": "Mentaliste"
+        "name": "Lance des balles de pétanques ",
+        "level": 1
     },
     {
-        "name": "Ambidextre"
+        "name": "éloquent.e",
+        "level": 1
     },
     {
-        "name": "Capable de jongler"
+        "name": "Joueur.euse de ukulele",
+        "level": 1
     },
     {
-        "name": "Peut voler"
+        "name": "Capable de faire de la comptabilité",
+        "level": 1
     },
     {
-        "name": "Troisième bras"
+        "name": "Armure en mousse",
+        "level": 1
     },
     {
-        "name": "Voyage dans le temps"
+        "name": "maillet en bois",
+        "level": 1
     },
     {
-        "name": "Téléportation"
+        "name": "Bonne flexbilité du bassin",
+        "level": 1
     },
     {
-        "name": "Maitrise le feu"
+        "name": "De bonne humeur",
+        "level": 1
     },
     {
-        "name": "Maitrise l’eau"
+        "name": "Pro du bowling ",
+        "level": 1
     },
     {
-        "name": "A un jetpack"
+        "name": "Nouvelle coupe de cheveux impressionnante",
+        "level": 1
+    },
+    {
+        "name": "Imbatable au karaoke ",
+        "level": 1
+    },
+    {
+        "name": "branche d'arbre",
+        "level": 1
+    },
+    {
+        "name": "Premier prix mangeur.euse de hotdog",
+        "level": 1
+    },
+    {
+        "name": "Conaissances de la pêche ",
+        "level": 1
+    },
+    {
+        "name": "Acompagné.e d'un Chihuahua",
+        "level": 1
+    },
+    {
+        "name": "Crache de la glu",
+        "level": 1
+    },
+    {
+        "name": "Surcaféiné",
+        "level": 1
+    },
+    {
+        "name": "Ambidextre",
+        "level": 2
+    },
+    {
+        "name": "Grand.e séducteur.ice",
+        "level": 2
+    },
+    {
+        "name": "Capable de jongler",
+        "level": 2
+    },
+    {
+        "name": "Athlétique",
+        "level": 2
+    },
+    {
+        "name": "armure en cuire",
+        "level": 2
+    },
+    {
+        "name": "Fait de la gymnastique",
+        "level": 2
+    },
+    {
+        "name": "Polyglote",
+        "level": 2
+    },
+    {
+        "name": "Escaladeur",
+        "level": 2
+    },
+    {
+        "name": "matraque ",
+        "level": 2
+    },
+    {
+        "name": "Acompagné.e d'un Bull Dog",
+        "level": 2
+    },
+    {
+        "name": "Vision parfaite",
+        "level": 2
+    },
+    {
+        "name": "imbatable aux échèques",
+        "level": 2
+    },
+    {
+        "name": "lance des shurikens",
+        "level": 2
+    },
+    {
+        "name": "Ingénieur.e",
+        "level": 2
+    },
+    {
+        "name": "Athlétique",
+        "level": 2
+    },
+    {
+        "name": "Pas besoin de dormir",
+        "level": 2
+    },
+    {
+        "name": "Mentaliste",
+        "level": 2
+    },
+    {
+        "name": "hacker",
+        "level": 2
+    },
+    {
+        "name": "Grands sauts",
+        "level": 2
+    },
+    {
+        "name": "longs bras",
+        "level": 2
+    },
+    {
+        "name": "Crache de l’eau",
+        "level": 2
+    },
+    {
+        "name": "Chanceux",
+        "level": 2
+    },
+    {
+        "name": "Sur l'adrénalie",
+        "level": 2
+    },
+    {
+        "name": "Peut voler",
+        "level": 3
+    },
+    {
+        "name": "Troisième bras",
+        "level": 3
+    },
+    {
+        "name": "Voyage dans le temps",
+        "level": 3
+    },
+    {
+        "name": "Téléportation",
+        "level": 3
+    },
+    {
+        "name": "Crache du feu",
+        "level": 3
+    },
+    {
+        "name": " jetpack",
+        "level": 3
+    },
+    {
+        "name": "Acompagné.e d'un berger Allemand",
+        "level": 3
+    },
+    {
+        "name": "machète",
+        "level": 3
+    },
+    {
+        "name": "revolver à 6 coups ",
+        "level": 3
+    },
+    {
+        "name": "vision rayon x",
+        "level": 3
+    },
+    {
+        "name": "Immunisé.e au poison",
+        "level": 3
+    },
+    {
+        "name": "armure en metal",
+        "level": 3
+    },
+    {
+        "name": "aura de terreur",
+        "level": 3
+    },
+    {
+        "name": "impossible à berner ",
+        "level": 3
+    },
+    {
+        "name": "champion triathlète",
+        "level": 3
+    },
+    {
+        "name": "Savoir encyclopédique",
+        "level": 3
+    },
+    {
+        "name": "Chimiste ",
+        "level": 3
+    },
+    {
+        "name": "béni des dieux",
+        "level": 3
+    },
+    {
+        "name": " hypnotisant",
+        "level": 3
+    },
+    {
+        "name": "Stimulants de combat",
+        "level": 3
     }
 ]
