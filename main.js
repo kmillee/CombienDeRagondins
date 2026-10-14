@@ -127,6 +127,7 @@ function chooseChampion(roundNumber){
     }
 
 }
+
 function startRound() {
     clearDebateInterval();
 
@@ -390,7 +391,7 @@ function renderDebateTurn(container) {
     input.type = "number";
     input.name = "guess";
     input.min = "0";
-    input.max = "1000000";
+    input.max = `${objectiveRange}`;
     input.step = "1";
     input.required = true;
     input.inputMode = "numeric";
@@ -427,9 +428,9 @@ function renderJudgeTurn(container) {
     input.type = "number";
     input.name = "guess";
     input.min = "0";
-    input.max = "1000000";
+    input.max = `${objectiveRange}`;
     input.step = "1";
-    input.placeholder = "0";
+    input.placeholder = `(entre 1 et ${objectiveRange})`;
     input.required = true;
     input.inputMode = "numeric";
     label.append(input);
@@ -522,27 +523,33 @@ function finishRound(guess) {
     const winnerChanged = initialWinnerIndexes.length !== finalWinnerIndexes.length
         || initialWinnerIndexes.some((index, winnerIndex) => index !== finalWinnerIndexes[winnerIndex]);
 
+    // Distribution des points aux joueurs 
     finalOutcome.winners.forEach(winner => {
         players[winner.index].score += finalOutcome.winners.length > 1 ? 1 : 2;
         if (winnerChanged) players[winner.index].score++;
     });
-    renderScores();
+    console.log("Closest distance:");
+    console.log(finalOutcome.closestDistance);
+    
+    if (finalOutcome.closestDistance === 0) players[round.monarchIndex].score+=2;
+    else if (finalOutcome.closestDistance < roundNumber) players[round.monarchIndex].score+=1;
 
+    renderScores();
 
     // afficher les scores
     document.getElementById("scorePanel").classList.remove("hidden");
     document.getElementById("turnPanel").classList.add("hidden");
-    renderResult(guess, finalOutcome.distances, finalOutcome.winners, winnerChanged);
+    renderResult(guess, finalOutcome.distances, finalOutcome.winners, winnerChanged, finalOutcome.closestDistance);
 }
 
 function getRoundOutcome(guess) {
     const distances = round.contributors.map(contributor => Math.abs(contributor.objective - guess));
     const closestDistance = Math.min(...distances);
     const winners = round.contributors.filter((contributor, index) => distances[index] === closestDistance);
-    return { distances, winners };
+    return { closestDistance, distances, winners };
 }
 
-function renderResult(guess, distances, winners, winnerChanged) {
+function renderResult(guess, distances, winners, winnerChanged, closestDistance) {
     const prevWinner = getRoundOutcome(round.firstGuess).winners;
 
     const result = document.getElementById("resultPanel");
@@ -552,8 +559,12 @@ function renderResult(guess, distances, winners, winnerChanged) {
     result.append(
         createElement("p", "eyebrow", "RÉSULTAT DE LA MANCHE"),
         createElement("h2", "turn-title", winners.length > 1 ? `Égalité : ${winnerNames}` : `${winnerNames} marque un point !`),
-        createElement("p", "turn-copy", `Première estimation : ${round.firstGuess}.`),
-        createElement("p", "turn-copy", `Estimation finale : ${guess} ragondin${guess === 1 ? "" : "s"}.`),
+        createElement("p", "turn-copy", `Estimation finale : ${guess} ragondin${guess === 1 ? "" : "s"}. (Estimation initiale: ${round.firstGuess}.)`),
+        closestDistance == 0 ?  createElement("p", "turn-copy", `C'est un tout pile ! ${players[round.monarchIndex].name} marque 2 points.`) :
+        closestDistance <= roundNumber ? createElement("p", "turn-copy", `C'est proche ! ${players[round.monarchIndex].name} marque 1 point.`) :
+                                        createElement("p", "turn-copy", `C'est loin ! Pas de point pour ${players[round.monarchIndex].name}.`),
+
+        // createElement("p", "turn-copy", `Estimation finale : ${guess} ragondin${guess === 1 ? "" : "s"}.`),
         winnerChanged
             ? createElement("p", "debate-bonus", `Manigance !! Le débat a changé le vainqueur : ${winnerNames} gagne${winners.length > 1 ? "nt chacun" : ""} 1 point bonus pour avoir volé la victoire de ${prevWinner.map(winner => players[winner.index].name).join(" et ")}.`)
             : createElement("p", "turn-copy", "Le débat n'a pas changé le vainqueur.")

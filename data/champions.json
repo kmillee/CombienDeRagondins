@@ -4,12 +4,14 @@
         "image": "clooney.jpg",
         "taille": 180,
         "poids": 80,
-        "description": "Acteur étasunien",
+        "description": "Acteur étatsunien",
         "niveau": 1
     },
     {
         "name": "Pingu",
         "image": "pingu.jpg",
+        "taille": 110,
+        "poids": 20,
         "description": "Petit manchot qui vit au Pôle Sud",
         "niveau": 1
     },
@@ -26,7 +28,7 @@
         "image": "musk.jpg",
         "taille": 188,
         "poids": 80,
-        "description": "Homme d'affaire",
+        "description": "Homme d'affaires",
         "niveau": 1
     },
     {
@@ -34,7 +36,7 @@
         "image": "winfrey.jpg",
         "taille": 170,
         "poids": 85,
-        "description": "Femme d'affaire",
+        "description": "Femme d'affaires",
         "niveau": 1
     },
     {
@@ -66,7 +68,7 @@
         "image": "child.jpg",
         "taille": 193,
         "poids": 75,
-        "description": "Chefe à la télé",
+        "description": "Cheffe à la télé",
         "niveau": 1
     },
     {
@@ -74,7 +76,7 @@
         "image": "dursley.jpg",
         "taille": 185,
         "poids": 110,
-        "description": "Tonton à Harry Potter\r\n",
+        "description": "Tonton de Harry Potter\n",
         "niveau": 1
     },
     {
@@ -82,7 +84,7 @@
         "image": "may.jpg",
         "taille": 165,
         "poids": 60,
-        "description": "Tatie à Spider-man",
+        "description": "Tatie de Spider man",
         "niveau": 1
     },
     {
@@ -90,7 +92,7 @@
         "image": "phil.jpg",
         "taille": 186,
         "poids": 80,
-        "description": "Comentateur météo, Groundhog Day",
+        "description": "Commentateur météo, Groundhog Day",
         "niveau": 1
     },
     {
@@ -98,7 +100,7 @@
         "image": "poulain.jpg",
         "taille": 160,
         "poids": 60,
-        "description": "Petite dame excentrique à paris",
+        "description": "Petite dame excentrique à Paris",
         "niveau": 1
     },
     {
@@ -122,7 +124,7 @@
         "image": "tatcher.jpg",
         "taille": 163,
         "poids": 60,
-        "description": "Première ministre du Royaume Uni",
+        "description": "Ex-première ministre du Royaume-Uni",
         "niveau": 1
     },
     {
@@ -130,7 +132,7 @@
         "image": "biden.jpg",
         "taille": 182,
         "poids": 85,
-        "description": "Président USA",
+        "description": "Ex-président USA",
         "niveau": 1
     },
     {
@@ -152,7 +154,7 @@
     {
         "name": "Cléopatre",
         "image": "cleopatre.jpg",
-        "taille": "160?",
+        "taille": 160,
         "poids": 50,
         "description": "Reine d'égypte",
         "niveau": 1
@@ -191,8 +193,186 @@
     },
     {
         "name": "Sorcière de l'ouest",
-        "description": "Passionée de plantes",
         "image": "ouest.jpg",
+        "taille": 170,
+        "poids": 55,
+        "description": "Sorcière, Magicien d'Oz",
         "niveau": 2
+    },
+    {
+        "name": "Sherlock Holmes",
+        "image": "holmes.jpg",
+        "taille": 185,
+        "poids": 70,
+        "description": "Enquêteur extraordinaire",
+        "niveau": 2
+    },
+    {
+        "name": "Carmen Sandiego",
+        "image": "sandiego.jpg",
+        "taille": 170,
+        "poids": 60,
+        "description": "Aventurière extraordinaire",
+        "niveau": 2
+    },
+    {
+        "name": "Chuck Norris",
+        "image": "norris.jpg",
+        "taille": 178,
+        "poids": 77,
+        "description": "Acteur et expert d'art martiaux",
+        "niveau": 2
+    },
+    {
+        "name": "Michelle Yeoh",
+        "image": "yeoh.jpg",
+        "taille": 168,
+        "poids": 55,
+        "description": "Actrice et experte d'arts martiaux",
+        "niveau": 2
+    },
+    {
+        "name": "Michael Phelps",
+        "image": "phelps.jpg",
+        "taille": 193,
+        "poids": 88,
+        "description": "Nageur olympique",
+        "niveau": 2
+    },
+    {
+        "name": "Alysa Liu",
+        "image": "liu.jpg",
+        "taille": 157,
+        "poids": 50,
+        "description": "Patineuse olympique",
+        "niveau": 2
+    },
+    {
+        "name": "Hulk Hogan",
+        "image": "hogan.jpg",
+        "taille": 201,
+        "poids": 135,
+        "description": "Catcheur",
+        "niveau": 2
+    },
+    {
+        "name": "Rhea Ripley",
+        "image": "ripley.jpg",
+        "taille": 170,
+        "poids": 70,
+        "description": "Catcheuse",
+        "niveau": 2
+    },
+    {
+        "name": "Bear Grylls",
+        "image": "grylls.jpg",
+        "taille": 183,
+        "poids": 80,
+        "description": "Survivaliste à la télé",
+        "niveau": 2
+    },
+    {
+        "name": "Célmence Castel",
+        "image": "castel.jpg",
+        "taille": 178,
+        "poids": 70,
+        "description": "Championne Koh Lanta",
+        "niveau": 2
+    },
+    {
+        "name": "Bruce Lee",
+        "image": "lee.jpg",
+        "taille": 173,
+        "poids": 61,
+        "description": "Maître de kung fu",
+        "niveau": 3
+    },
+    {
+        "name": "Ronda Rousey",
+        "image": "rousey.jpg",
+        "taille": 168,
+        "poids": 61,
+        "description": "Judoka, lutteuse",
+        "niveau": 3
+    },
+    {
+        "name": "Genghis Khan",
+        "image": "khan.jpg",
+        "taille": 175,
+        "poids": 70,
+        "description": "Chef de guerre",
+        "niveau": 3
+    },
+    {
+        "name": "Jeanne D’Arc",
+        "image": "arc.jpg",
+        "taille": 163,
+        "poids": 55,
+        "description": "Cheffe de guerre",
+        "niveau": 3
+    },
+    {
+        "name": "Conan le barbare",
+        "image": "barbare.jpg",
+        "taille": 190,
+        "poids": 100,
+        "description": "Guerrier fictif",
+        "niveau": 3
+    },
+    {
+        "name": "Mulan",
+        "image": "mulan.jpg",
+        "taille": 165,
+        "poids": 55,
+        "description": "Guerrière fictive",
+        "niveau": 3
+    },
+    {
+        "name": "Capitaine Crochet",
+        "image": "crochet.jpg",
+        "taille": 180,
+        "poids": 75,
+        "description": "Pirate dans Peter Pan",
+        "niveau": 3
+    },
+    {
+        "name": "Elisabeth Swan",
+        "image": "swan.jpg",
+        "taille": 165,
+        "poids": 55,
+        "description": "Protagoniste pirate des caraîbes",
+        "niveau": 3
+    },
+    {
+        "name": "Le monstre de Frankenstein",
+        "image": "frankenstein.jpg",
+        "taille": 185,
+        "poids": 100,
+        "description": "Homme géant, monstre de film",
+        "niveau": 3
+    },
+    {
+        "name": "Lady Dimestescu",
+        "image": "dimetrescu.jpg",
+        "taille": 277,
+        "poids": 130,
+        "description": "Femme géante, monstre de jeu vidéo.",
+        "niveau": 3
+    },
+    {
+        "name": "Luke Sky Walker",
+        "image": "walker.jpg",
+        "taille": 175,
+        "poids": 75,
+        "description": "Jedi, protagoniste Star Wars",
+        "niveau": 3
+    },
+    {
+        "name": "Chani",
+        "image": "chani.jpg",
+        "taille": 170,
+        "poids": 55,
+        "description": "Fremen, protagoniste de Dune",
+        "niveau": 3
     }
 ]

@@ -1,38 +1,238 @@
 [
     {
-        "name": "A des caries"
+        "name": "Embonpoint",
+        "level": 1
     },
     {
-        "name": "A de l’eczema"
+        "name": " Déficite d’attention",
+        "level": 1
     },
     {
-        "name": "Est fumeur"
+        "name": " Démangeaisons",
+        "level": 1
     },
     {
-        "name": "Scientologue"
+        "name": " Rhume des foins",
+        "level": 1
     },
     {
-        "name": "A le charisme d’une huître"
+        "name": " Rabat joies/râleurs",
+        "level": 1
     },
     {
-        "name": "Intolérant au lactose"
+        "name": " Baveux",
+        "level": 1
     },
     {
-        "name": "Est analphabète"
+        "name": " arrogants",
+        "level": 1
     },
     {
-        "name": "Ne supporte pas les épices"
+        "name": " Avares",
+        "level": 1
     },
     {
-        "name": "Est tout le temps en retard"
+        "name": " Paresseux",
+        "level": 1
     },
     {
-        "name": "Masculiniste"
+        "name": " Constipationist",
+        "level": 1
     },
     {
-        "name": "A la mononucléose"
+        "name": " Endettés",
+        "level": 1
     },
     {
-        "name": "Unijambiste"
+        "name": " Manque d’éducation",
+        "level": 1
+    },
+    {
+        "name": " Poussière dans l’oeil",
+        "level": 1
+    },
+    {
+        "name": " Peau sensible",
+        "level": 1
+    },
+    {
+        "name": " Petite vessie",
+        "level": 1
+    },
+    {
+        "name": " Pompette",
+        "level": 1
+    },
+    {
+        "name": " Superstitieux",
+        "level": 1
+    },
+    {
+        "name": " Dents carriées",
+        "level": 1
+    },
+    {
+        "name": " Sent mauvais",
+        "level": 1
+    },
+    {
+        "name": "Moche selon les standards de la société",
+        "level": 1
+    },
+    {
+        "name": " Anxiété généralisée",
+        "level": 2
+    },
+    {
+        "name": " Déprimé",
+        "level": 2
+    },
+    {
+        "name": " Kleptomanes",
+        "level": 2
+    },
+    {
+        "name": " Myopie",
+        "level": 2
+    },
+    {
+        "name": " Psoriasis",
+        "level": 2
+    },
+    {
+        "name": " Incontinence",
+        "level": 2
+    },
+    {
+        "name": " En état d’ébriété",
+        "level": 2
+    },
+    {
+        "name": " Fanatique religieux",
+        "level": 2
+    },
+    {
+        "name": " Arthrite",
+        "level": 2
+    },
+    {
+        "name": " Aveugle d’un oeil",
+        "level": 2
+    },
+    {
+        "name": " A moitié sourd",
+        "level": 2
+    },
+    {
+        "name": " Pattes molles",
+        "level": 2
+    },
+    {
+        "name": " Dents pourries",
+        "level": 2
+    },
+    {
+        "name": " Hideux selon les standard de la société",
+        "level": 2
+    },
+    {
+        "name": " Chlingue",
+        "level": 2
+    },
+    {
+        "name": " Mal de mer",
+        "level": 2
+    },
+    {
+        "name": " Trouble du langage",
+        "level": 2
+    },
+    {
+        "name": " Des doigts en moins",
+        "level": 2
+    },
+    {
+        "name": " Illétré",
+        "level": 2
+    },
+    {
+        "name": " Schizophrènes",
+        "level": 3
+    },
+    {
+        "name": " Bipolaires",
+        "level": 3
+    },
+    {
+        "name": " Caridaques",
+        "level": 3
+    },
+    {
+        "name": " Lépreux",
+        "level": 3
+    },
+    {
+        "name": " une patte en moins",
+        "level": 3
+    },
+    {
+        "name": " Aveuglement total",
+        "level": 3
+    },
+    {
+        "name": " Narcolepsie",
+        "level": 3
+    },
+    {
+        "name": " Muets",
+        "level": 3
+    },
+    {
+        "name": " Sourd",
+        "level": 3
+    },
+    {
+        "name": " Criminel récidiviste",
+        "level": 3
+    },
+    {
+        "name": " Maladie des Os de verre",
+        "level": 3
+    },
+    {
+        "name": " Édenté",
+        "level": 3
+    },
+    {
+        "name": " Ernie discale",
+        "level": 3
+    },
+    {
+        "name": " Empoisonnement alimentaire",
+        "level": 3
+    },
+    {
+        "name": " Addiction aux drogues dure",
+        "level": 3
+    },
+    {
+        "name": " Alcoolisme avancé",
+        "level": 3
+    },
+    {
+        "name": " Extrémisme religieux",
+        "level": 3
+    },
+    {
+        "name": " En cours de zombification",
+        "level": 3
+    },
+    {
+        "name": " Trouble de stress post traumatique",
+        "level": 3
+    },
+    {
+        "name": " Sent la mort",
+        "level": 3
     }
 ]
