@@ -5,9 +5,7 @@ const playerCount = 4;
 const maxRounds = 4;
 let objectiveRange = 10;
 
-let champions = [
-    {name:""}
-];
+let champions = [ {name:""} ];
 let bonus = [];
 let malus = [];
 
@@ -225,9 +223,9 @@ function restartGame() {
     firstMonarchIndex = 0;
 
     if (players.length > 0) {
-        players = players.map(player => ({ name: player.name, score: 0 }));
+        players = players.map(player => ({ name: "Sire " + player.name, score: 0 }));
         players.forEach((player, index) => {
-            document.querySelector(`[name="player${index + 1}"]`).value = player.name;
+            document.querySelector(`[name="player${index + 1}"]`).value = "Sire " +player.name;
         });
     }
 

@@ -10,16 +10,26 @@
 }
 
 @font-face {
-  font-family: "Gaegu";
-  src: url("./Font/Gaegu/Gaegu-Regular.ttf") format("truetype");
+  font-family: "Caveat";
+  src: url("./Font/Caveat/Caveat-VariableFont_wght.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 
+
+
+/* @font-face {
+  font-family: "Comfortaa";
+  src: url("./Font/Comfortaa/static/Comfortaa-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+} */
+
 @font-face {
-  font-family: "Gaegu";
-  src: url("./Font/Gaegu/Gaegu-Bold.ttf") format("truetype");
+  font-family: "Comfortaa";
+  src: url("./Font/Comfortaa/static/Comfortaa-Bold.ttf") format("truetype");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -35,7 +45,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  font-family: "Gaegu";
+  font-family: "Comfortaa";
   line-height: 1.5;
 }
 
@@ -273,6 +283,8 @@ main {
 
 h1 {
   line-height: 1.05;
+  font-family: "Caveat";
+
 }
 
 .lede {
