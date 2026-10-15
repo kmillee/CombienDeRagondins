@@ -1,5 +1,4 @@
-// todo: store in json
-// todo: gestion point "manigance"
+
 
 // --- Configuration et données ---
 const playerCount = 4;
@@ -18,12 +17,42 @@ let players = [];       // contient {nom, score} des joueurs
 let roundNumber = 1;    // manche en cours
 let round = null;            
 let debateTimerInterval = null;
+let firstMonarchIndex = 0;
 
+// --- Etat de l'interface ---
+const stagePanelIds = ["landingPanel", "introPanel", "setupPanel", "rulesPanel", "monarchPanel", "gamePanel", "creditsPanel"];
+let currentStageId = "landingPanel";
+let rulesReturnStageId = "setupPanel";
+let creditsReturnStageId = "landingPanel";
+let soundEnabled = localStorage.getItem("ragondins.sound") === "true";
+let vibrationEnabled = localStorage.getItem("ragondins.vibration") === "true";
+
+// Charger données au lancement de l'app
+document.addEventListener("DOMContentLoaded", async () => {
+        try {
+        await loadData();
+    } 
+    catch (error) {
+        console.error(error);
+        alert("Impossible de charger les données du jeu.");
+        return;
+    }
+});
 
 // --- Evenements de la page ---
-document.getElementById("setupPlayer").addEventListener("submit", async event => {
-    document.getElementById("title").classList.add("hidden");
+document.getElementById("beginSetup").addEventListener("click", () => {
+    showScreen("introPanel");
+});
 
+document.getElementById("introContinue").addEventListener("click", () => {
+    showScreen("setupPanel");
+});
+
+document.getElementById("rulesContinue").addEventListener("click", () => {
+    showScreen(rulesReturnStageId);
+});
+
+document.getElementById("setupPlayer").addEventListener("submit", async event => {
     event.preventDefault(); // empeche reload de la page
 
     const formData = new FormData(event.currentTarget);
@@ -34,29 +63,70 @@ document.getElementById("setupPlayer").addEventListener("submit", async event =>
         score: 0
     }));
 
-    console.log("SET OF PLAYERS :");
-    console.log(players);
-
-    try {
-        await loadData();
-    } 
-    catch (error) {
-        console.error(error);
-        alert("Impossible de charger les données du jeu.");
-        return;
-    }
-
     roundNumber = 1;
-    document.getElementById("setupPanel").classList.add("hidden");
-    document.getElementById("gamePanel").classList.remove("hidden");
-    startRound();
+    objectiveRange = 10;
+    rulesReturnStageId = "monarchPanel";
+    document.getElementById("rulesContinue").textContent = "Choisir le premier monarque";
+    showScreen("rulesPanel");
+    renderMonarchChoices();
 });
 
-document.getElementById("newGame").addEventListener("click", () => {
-    clearDebateInterval();
-    document.getElementById("gamePanel").classList.add("hidden");
-    document.getElementById("setupPanel").classList.remove("hidden");
+document.getElementById("menuToggle").addEventListener("click", () => {
+    pauseDebateTimer();
+    document.getElementById("menuDialog").showModal();
 });
+
+document.getElementById("closeMenu").addEventListener("click", () => {
+    document.getElementById("menuDialog").close();
+});
+
+document.getElementById("openRulesFromMenu").addEventListener("click", () => {
+    rulesReturnStageId = currentStageId;
+    document.getElementById("rulesContinue").textContent = "Reprendre la partie";
+    document.getElementById("menuDialog").close();
+    showScreen("rulesPanel");
+});
+
+
+
+
+
+document.getElementById("toggleSound").addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem("ragondins.sound", String(soundEnabled));
+    updateSettingsButtons();
+});
+
+document.getElementById("toggleVibration").addEventListener("click", () => {
+    vibrationEnabled = !vibrationEnabled;
+    localStorage.setItem("ragondins.vibration", String(vibrationEnabled));
+    updateSettingsButtons();
+});
+
+document.getElementById("openCredits").addEventListener("click", async () => {
+    creditsReturnStageId = currentStageId;
+    document.getElementById("menuDialog").close();
+    showScreen("creditsPanel");
+    await renderCreditsCards();
+});
+
+document.getElementById("creditsBack").addEventListener("click", () => {
+    showScreen(creditsReturnStageId);
+});
+
+document.getElementById("restartGame").addEventListener("click", restartGame);
+
+document.getElementById("menuDialog").addEventListener("close", () => {
+    document.getElementById("menuOptions").classList.remove("hidden");
+    document.getElementById("menuTitle").textContent = "Menu";
+});
+
+document.addEventListener("click", event => {
+    if (event.target.closest(".step-action, .monarch-choice")) playStepFeedback();
+});
+
+updateSettingsButtons();
+
 
 document.getElementById("openScores").addEventListener("click", () => {
     document.getElementById("scoresDialog").showModal();
@@ -95,8 +165,9 @@ function chooseChampion(roundNumber){
                 ...selectedChampion,
                 // 1 bonus ou malus (au hasard)
                 modifiers: [
-                    { type: coinFlip, name: pickRandom(coinFlip === "bonus" ? bonus : malus).name }, 
-
+                    // { type: coinFlip, name: pickRandom(coinFlip === "bonus" ? bonus : malus).name }, 
+                    { type: "bonus", name: pickRandom(bonus).name },
+                    { type: "malus", name: pickRandom(malus).name }
                 ]
    
             };
@@ -106,8 +177,11 @@ function chooseChampion(roundNumber){
                 ...selectedChampion,
                 // 1 bonus et 1 malus
                 modifiers: [
-                    { type: "bonus", name: pickRandom(bonus).name },
-                    { type: "malus", name: pickRandom(malus).name }
+                    { type: coinFlip, name: pickRandom(coinFlip === "bonus" ? bonus : malus).name }, 
+                    { type: coinFlip, name: pickRandom(coinFlip === "bonus" ? bonus : malus).name }, 
+
+                    // { type: "bonus", name: pickRandom(bonus).name },
+                    // { type: "malus", name: pickRandom(malus).name }
                 ]
             };
                 
@@ -128,11 +202,89 @@ function chooseChampion(roundNumber){
 
 }
 
+function showScreen(panelId) {
+    stagePanelIds.forEach(id => document.getElementById(id).classList.add("hidden"));
+    document.getElementById(panelId).classList.remove("hidden");
+    currentStageId = panelId;
+    window.scrollTo(0, 0);
+}
+
+function pauseDebateTimer() {
+    if (!round || round.activeDebateTimerIndex === null) return;
+    clearDebateInterval();
+    round.activeDebateTimerIndex = null;
+    updateDebateTimerButtons();
+}
+
+function restartGame() {
+    const previousStageId = currentStageId;
+    clearDebateInterval();
+    roundNumber = 1;
+    objectiveRange = 10;
+    round = null;
+    firstMonarchIndex = 0;
+
+    if (players.length > 0) {
+        players = players.map(player => ({ name: player.name, score: 0 }));
+        players.forEach((player, index) => {
+            document.querySelector(`[name="player${index + 1}"]`).value = player.name;
+        });
+    }
+
+    document.getElementById("menuDialog").close();
+    if (document.getElementById("turnOverlay").open) document.getElementById("turnOverlay").close();
+    if (document.getElementById("scoresDialog").open) document.getElementById("scoresDialog").close();
+
+    if (players.length > 0) {
+        showScreen("monarchPanel");
+        renderMonarchChoices();
+    } else {
+        showScreen(previousStageId === "setupPanel" ? "setupPanel" : "landingPanel");
+    }
+}
+
+function updateSettingsButtons() {
+    const soundButton = document.getElementById("toggleSound");
+    const vibrationButton = document.getElementById("toggleVibration");
+    if (!soundButton || !vibrationButton) return;
+
+    soundButton.setAttribute("aria-pressed", String(soundEnabled));
+    document.getElementById("soundIcon").src = soundEnabled ? "./UI/sound_on.png" : "./UI/sound_off.png";
+    document.getElementById("soundLabel").textContent = soundEnabled ? "Son activé" : "Son désactivé";
+    vibrationButton.setAttribute("aria-pressed", String(vibrationEnabled));
+    document.getElementById("vibrationIcon").src = vibrationEnabled ? "./UI/vibration_on.png" : "./UI/vibration_off.png";
+    document.getElementById("vibrationLabel").textContent = vibrationEnabled ? "Vibrations activées" : "Vibrations désactivées";
+}
+
+function playStepFeedback() {
+    if (soundEnabled) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+            const audioContext = new AudioContextClass();
+            const oscillator = audioContext.createOscillator();
+            const volume = audioContext.createGain();
+            oscillator.frequency.value = 560;
+            volume.gain.setValueAtTime(0.025, audioContext.currentTime);
+            volume.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.08);
+            oscillator.connect(volume);
+            volume.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.08);
+            oscillator.addEventListener("ended", () => audioContext.close(), { once: true });
+        }
+    }
+
+    if (vibrationEnabled && navigator.vibrate) navigator.vibrate(24);
+}
+
+
 function startRound() {
     clearDebateInterval();
 
     // fait tourner le rôle du monarque entre les 4 joueurs
-    const monarchIndex = (roundNumber - 1) % playerCount;
+    const monarchIndex = (firstMonarchIndex + roundNumber - 1) % playerCount;
+
+    // updateNames(monarchIndex);
 
     // on garde l'index d'origine pour attribuer les points au bon joueur après le verdict
     const contributors = players
@@ -168,7 +320,7 @@ function startRound() {
     
 
     document.getElementById("roundLabel").textContent = `Manche ${roundNumber}`;
-    document.getElementById("introPanel").classList.remove("hidden");
+    document.getElementById("matchIntroPanel").classList.remove("hidden");
     document.getElementById("turnPanel").classList.remove("hidden");
     document.getElementById("resultPanel").classList.add("hidden");
     document.getElementById("gameTopline").classList.add("hidden");
@@ -200,27 +352,32 @@ function startRound() {
 }
 
 function revealMatch() {
+    if (soundEnabled) {
+        const trumpetSound = new Audio("./SFX/trompette.ogg");
+        trumpetSound.volume = 0.8;
+        trumpetSound.play().catch(() => {});
+    }
+
     document.getElementById("gameTopline").classList.remove("hidden");
     document.getElementById("characterSection").classList.remove("hidden");
 
     const championDescription = createElement("p", "turn-copy", "");
     championDescription.append(
-        document.createTextNode("Vos éclaireurs ont repéré "),
+        document.createTextNode("Nos éclaireurs ont repéré "),
         createElement("strong", "", round.champion.name),
-        document.createTextNode(" sur notre territoire. Ils ont rapporté de précieux renseignements tactiques.")
+        document.createTextNode(" sur notre territoire. Ils ont rapporté de précieux renseignements tactiques. Présentez la situation à vos conseillers, pour qu'ils puissent vous aider.")
     );
 
-    document.getElementById("introPanel").replaceChildren(
+    document.getElementById("matchIntroPanel").replaceChildren(
         createElement("p", "eyebrow", `MANCHES ${roundNumber} SUR ${maxRounds}`),
         createElement("h2", "turn-title", "L'intrus est identifié !"),
         championDescription
     );
 
-    // cache panneau ragondin
-    document.getElementById("ragondinCharacterPanel").classList.add("hidden");
+        document.getElementById("ragondinCharacterPanel").classList.remove("hidden");
 
     const beginButton = makeButton("Demander l'avis des conseillers", () => {
-        document.getElementById("introPanel").classList.add("hidden");
+        document.getElementById("matchIntroPanel").classList.add("hidden");
         document.getElementById("turnPanel").replaceChildren();
         renderTurn();
     });
@@ -228,7 +385,55 @@ function revealMatch() {
 }
 
 // --- Affichage ---
+function renderMonarchChoices() {
+    const choices = document.getElementById("monarchChoices");
+    choices.replaceChildren(...players.map((player, index) => {
+        const button = makeButton(player.name, () => {
+            firstMonarchIndex = index;
+            showScreen("gamePanel");
+            startRound();
+        }, { stepAction: false });
+        button.classList.add("monarch-choice");
+        button.setAttribute("aria-label", `Choisir ${player.name} comme premier Monarque`);
+        return button;
+    }));
+}
 
+async function renderCreditsCards() {
+    const creditsCharacters = document.getElementById("creditsCharacters");
+    const teamRagondin = [
+        {name: "Camille Jouanet", image: "./UI/ragondin_camille.png", description: "Dévelopement web"},
+        {name: "Gabriel Sargent", image: "./UI/ragondin_roi.png", description: "Direction artistique"},
+        {name: "Fréderic L. Tremblay", image: "./UI/ragondin_fred.png", description: "Game design"},
+        {name: "Nolwenn Tricaud-Malherbe", image: "./UI/ragondin_nolwenn.png", description: "UI/UX design"},
+    ];
+
+
+    creditsCharacters.replaceChildren(...teamRagondin.map(ragondin => {
+        const panel = createElement("article", "character-panel", "");
+        const layout = createElement("div", "character-layout", "");
+        const image = document.createElement("img");
+        image.src = `${ragondin.image}`;
+        image.alt = ragondin.name;
+
+        const details = createElement("div", "character-details", "");
+        details.append(
+            createElement("h3", "credit-character-name", ragondin.name),
+            createElement("span", "description", ragondin.description)
+        );
+
+        const modifiersHeading = createElement("h4", "credit-modifiers-title", "Modificateurs tirés au sort");
+        const modifiers = document.createElement("ul");
+        modifiers.append(
+            createElement("li", "bonus", pickRandom(bonus).name),
+            createElement("li", "malus", pickRandom(malus).name)
+        );
+        details.append(modifiersHeading, modifiers);
+        layout.append(image, details);
+        panel.append(layout);
+        return panel;
+    }));
+}
 
 function renderCharacters() {
     document.getElementById("championImage").src = "./images/" +round.champion.image;
@@ -238,7 +443,7 @@ function renderCharacters() {
 
     renderModifierList("championMods", round.champion.modifiers);
 
-    document.getElementById("ragondinImage").src = "./images/ragondin.jpg";
+    document.getElementById("ragondinImage").src = "./images/ragondin_soldat.png";
     document.getElementById("ragondinImage").alt = "Ragondins";
     document.getElementById("ragondinDescription").textContent = "Soldat rongeur";
     document.getElementById("ragondinName").textContent = "Les ragondins";
@@ -261,12 +466,20 @@ function renderModifierList(id, modifiers) {
 }
 
 function renderScores() {
+    const maxScore = Math.max(...players.map(player => player.score));
     // les scores sont affichés à deux endroits : dans la fenêtre modale et en fin de manche
     ["scoreList", "modalScoreList"].forEach(id => {
         document.getElementById(id).replaceChildren(...players.map(player => {
             const item = document.createElement("div");
             item.className = "score-item";
             const name = createElement("span", "score-name", player.name);
+            if (maxScore === player.score) {
+                const crown = document.createElement("img");
+                crown.className = "score-crown";
+                crown.src = "./UI/couronne.png";
+                crown.alt = "Meilleur score";
+                name.append(crown);
+            }
             const score = createElement("strong", "", player.score);
             item.append(name, score);
             return item;
@@ -310,31 +523,26 @@ function renderContributorTurn(container) {
 
     const description = createElement("p", "turn-copy", "Ajoute un modificateur pour te rapprocher de ton objectif secret.");
 
-    const modifierInstruction = createElement(
-        "p",
-        `modifier-instruction ${contributor.modifierType}`,
-        contributor.modifierType === "malus" ? "Attribue un malus" : "Attribue un bonus"
-    );
 
-    container.append(step, title, description, modifierInstruction);
+    container.append(step, title, description);
 
     // L'objectif est révélé seulement après confirmation, pour rester privé des autres joueurs.
     const objective = document.createElement("div");
     objective.className = "objective-box";
     objective.append(createElement("span", "objective-caption", "Objectif secret :"));
     objective.append(createElement("strong", "objective-number", round.contributors[round.currentContributor].objective));
-    objective.append(createElement("span", "objective-caption", "ragondins"));
+    objective.append(createElement("span", "objective-caption", "ragondins (entre 1 et " + objectiveRange + ")"));
 
     const form = document.createElement("form");
     form.className = "modifier-form";
 
-    const label = createElement("label", "", "Ton modificateur");
-
+    const label = createElement("label", `modifier-instruction ${contributor.modifierType}`, `${contributor.modifierType === "malus" ? "Attribue un malus au régiment :" : "Attribue un bonus au régiment :"}`);
     const input = document.createElement("input");
     input.name = "modifier";
     input.maxLength = 90;
     input.placeholder = contributor.modifierType == "malus" ? "ex: pas de poils" : 'ex: volants';
     input.required = true;
+
     label.append(input);
 
     const submitButton = makeButton("Transmettre au suivant", () => {});
@@ -354,8 +562,6 @@ function renderContributorTurn(container) {
         renderTurn();
     });
     container.append(objective, form);
-
-    input.focus();
 }
 
 function renderDebateTurn(container) {
@@ -447,7 +653,6 @@ function renderJudgeTurn(container) {
     });
 
     container.append(form);
-    input.focus();
 }
 
 
@@ -457,7 +662,7 @@ function startDebate(firstGuess) {
     round.firstGuess = firstGuess;
     round.debateTimers = round.contributors.map(() => 60);
     round.activeDebateTimerIndex = null;
-    document.getElementById("introPanel").classList.add("hidden");
+    document.getElementById("matchIntroPanel").classList.add("hidden");
     document.getElementById("characterSection").classList.remove("hidden");
     document.getElementById("ragondinCharacterPanel").classList.remove("hidden");
     renderTurn();
@@ -538,6 +743,7 @@ function finishRound(guess) {
 
     // afficher les scores
     document.getElementById("scorePanel").classList.remove("hidden");
+    document.getElementById("characterSection").classList.add("hidden");
     document.getElementById("turnPanel").classList.add("hidden");
     renderResult(guess, finalOutcome.distances, finalOutcome.winners, winnerChanged, finalOutcome.closestDistance);
 }
@@ -556,38 +762,64 @@ function renderResult(guess, distances, winners, winnerChanged, closestDistance)
     result.replaceChildren();
     result.classList.remove("hidden");
     const winnerNames = winners.map(winner => players[winner.index].name).join(" et ");
-    result.append(
-        createElement("p", "eyebrow", "RÉSULTAT DE LA MANCHE"),
-        createElement("h2", "turn-title", winners.length > 1 ? `Égalité : ${winnerNames}` : `${winnerNames} marque un point !`),
-        createElement("p", "turn-copy", `Estimation finale : ${guess} ragondin${guess === 1 ? "" : "s"}. (Estimation initiale: ${round.firstGuess}.)`),
-        closestDistance == 0 ?  createElement("p", "turn-copy", `C'est un tout pile ! ${players[round.monarchIndex].name} marque 2 points.`) :
-        closestDistance <= roundNumber ? createElement("p", "turn-copy", `C'est proche ! ${players[round.monarchIndex].name} marque 1 point.`) :
-                                        createElement("p", "turn-copy", `C'est loin ! Pas de point pour ${players[round.monarchIndex].name}.`),
-
-        // createElement("p", "turn-copy", `Estimation finale : ${guess} ragondin${guess === 1 ? "" : "s"}.`),
-        winnerChanged
-            ? createElement("p", "debate-bonus", `Manigance !! Le débat a changé le vainqueur : ${winnerNames} gagne${winners.length > 1 ? "nt chacun" : ""} 1 point bonus pour avoir volé la victoire de ${prevWinner.map(winner => players[winner.index].name).join(" et ")}.`)
-            : createElement("p", "turn-copy", "Le débat n'a pas changé le vainqueur.")
+    const resultHeading = createElement("div", "result-heading", "");
+    resultHeading.append(
+        createElement("p", "eyebrow", `FIN DE LA MANCHE ${roundNumber}`),
+        createElement("h2", "turn-title", winners.length > 1 ? `Égalité entre ${winnerNames}` : `${winnerNames} remporte la manche`)
     );
+
+    const monarchPoints = closestDistance === 0 ? 2 : closestDistance < roundNumber ? 1 : 0;
+    const resultStats = createElement("div", "result-stats", "");
+    [
+        ["Estimation finale", `${guess} ragondin${guess === 1 ? "" : "s"}`],
+        ["Écart le plus proche", closestDistance],
+        ["Points du Monarque", `+${monarchPoints}`]
+    ].forEach(([label, value]) => {
+        const stat = createElement("div", "result-stat", "");
+        stat.append(createElement("span", "", label), createElement("strong", "", value));
+        resultStats.append(stat);
+    });
+
+    result.append(resultHeading, resultStats);
+    result.append(winnerChanged
+        ? createElement("p", "result-note debate-bonus", `Le débat a changé le résultat : ${winnerNames} remporte le bonus de manigance aux dépens de ${prevWinner.map(winner => players[winner.index].name).join(" et ")}.`)
+        : createElement("p", "result-note", "Le débat n'a pas changé le vainqueur."));
 
     const recap = document.createElement("div");
     recap.className = "recap-list";
+    const recapHeading = document.createElement("div");
+    recapHeading.className = "recap-heading";
+    recapHeading.append(
+        createElement("span", "", "Conseiller"),
+        createElement("span", "", "Objectif"),
+        createElement("span", "", "Écart"),
+        createElement("span", "", "Points")
+    );
+    recap.append(recapHeading);
     round.contributors.forEach((contributor, index) => {
         const row = document.createElement("div");
         row.className = "recap-row";
+        const isWinner = winners.some(winner => winner.index === contributor.index);
+        const roundPoints = isWinner
+            ? (winners.length > 1 ? 1 : 2) + (winnerChanged ? 1 : 0)
+            : 0;
+        if (isWinner) row.classList.add("is-winner");
         row.append(
             createElement("span", "", players[contributor.index].name),
             createElement("strong", "", `${contributor.objective} ragondins`),
-            createElement("span", "recap-distance", `écart ${distances[index]}`)
+            createElement("span", "recap-distance", distances[index]),
+            createElement("strong", "recap-points", `+${roundPoints}`)
         );
         recap.append(row);
     });
 
-    result.append(recap, makeButton("Manche suivante", () => {
+    const nextRoundButton = makeButton("Manche suivante", () => {
         roundNumber++;
         objectiveRange+=10;
         startRound();
-    }));
+    });
+    nextRoundButton.classList.add("step-action");
+    result.append(recap, nextRoundButton);
 }
 
 
@@ -612,9 +844,9 @@ function createElement(tag, className, text) {
     return element;
 }
 
-function makeButton(text, onClick) {
+function makeButton(text, onClick, { stepAction = true } = {}) {
     const button = document.createElement("button");
-    button.className = "button";
+    button.className = stepAction ? "button step-action" : "button";
     button.type = "button";
     button.textContent = text;
     button.addEventListener("click", onClick);
@@ -624,6 +856,7 @@ function makeButton(text, onClick) {
 function pickRandom(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
+
 
 
 // --- Gestions des données ---

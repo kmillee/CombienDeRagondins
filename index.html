@@ -11,27 +11,41 @@
   <div class="page">
 
     <main>
-        <h1 id="title">Combien de ragondins ?</span></h1>
+      <section class="landing-screen" id="landingPanel" aria-labelledby="title">
+        <div class="landing-copy">
+          <h1 id="title">Combien de<br /><span>ragondins ?</span></h1>
+          <p class="landing-description">Débats absurdes et mauvaise foi entre amis, le cocktail parfait pour une soirée réussie.</p>
+                  <div class="landing-art">
+          <img src="./UI/ragondin_roi.png" alt="Le roi ragondin, couronné et armé de son sceptre" />
+        </div>
+          <button class="button button-primary step-action" id="beginSetup" type="button">Lire les règles</button>
+        </div>
 
-      <section id="introPanel" class="intro hidden" aria-labelledby="title">
-        <!-- <p class="lede">Des intrus qui pataugent dans nos étangs ? Le monarque n'en restera pas là.
-        </br> <strong>Mais combien de ragondins va-t-il envoyer ?</strong> </p> -->
-        <p class="lede"><strong>Combien faut-il de ragondins pour battre Georges Clooney ?</strong> Et s’il a une armure en fer ? 
-Et la mononucléose ?
-        </br> 
-        <p class="lede">Des <strong>intrus</strong> pataugent dans les étangs du Royaume. Le <strong>Monarque des Ragondins</strong> ne peut pas l’accepter.
-        </br> 
-        <p class="lede">Les éclaireurs du Monarque rapportent ce qu’il se passe dans le Royaume, et les intrus qui osent le défier.
-        </br> 
-        <p class="lede">Vous incarnez les <strong>conseillèr.es du Monarque</strong>. 
-        </br> 
-        <p class="lede">Vous devez aider le Monarque à estimer le <strong>nombre de ragondins optimal</strong> pour battre les intrus... quitte à mentir un peu.
+      </section>
 
+      <section class="intro-page hidden" id="introPanel" aria-labelledby="introTitle">
+        <h2 id="introTitle">Débat crucial !</h2>
+        <p class="lede"><strong>D'après vous, combien faut-il de ragondins pour battre Georges Clooney ?</strong> Et s'il a une armure en fer ? Et la mononucléose ?</p>
+        <p class="lede">Ce sont des questions très sérieuses, et vous allez devoir y répondre du mieux possible.</p>
+        <p class="lede">Sur les 4 joueurs, l'un joue le <strong>Monarque</strong>, et les 3 autres ses <strong>conseillers</strong>.</p>
+        <p class="lede">Chaque manche va annoncer une nouvelle intrusion sur votre territoire : le Monarque doit envoyer des soldats ! D'accord… mais combien ?</p>
+        <p class="lede">Pour choisir, ses conseillers l'aideront à <strong>estimer le nombre de ragondins optimal</strong> pour battre les intrus… quitte à mentir un peu.</p>
+
+
+</p>
+        <button class="button button-primary step-action" id="introContinue" type="button">Inscrire les joueurs</button>
+      </section>
+
+      <section class="credits-screen hidden" id="creditsPanel" aria-labelledby="creditsTitle">
+        <p class="eyebrow">LE ROYAUME REMERCIE</p>
+        <h2 id="creditsTitle">Team Ragondins</h2>
+        <div class="credits-character-grid" id="creditsCharacters" aria-label="Personnages et modificateurs"></div>
+        <button class="button button-primary step-action" id="creditsBack" type="button">Retour au jeu</button>
       </section>
 
 
       <!-- Grille pour joueurs -->
-      <section class="panel setup" id="setupPanel" aria-labelledby="setupTitle">
+      <section class="panel setup hidden" id="setupPanel" aria-labelledby="setupTitle">
         <div class="panel-heading">
           <div>
             <h2 id="setupTitle">Qui joue ?</h2>
@@ -47,17 +61,40 @@ Et la mononucléose ?
             <label><input name="player3"  maxlength="20" required placeholder="Joueur 3"/></label>
             <label><input name="player4"  maxlength="20" required placeholder="Joueur 4"/></label>
           </div>
-          <button class="button button-primary" type="submit">Commencer</button>
+          <button class="button button-primary step-action" type="submit">Commencer</button>
         </form>
+      </section>
+
+      <section class="rules-screen hidden" id="rulesPanel" aria-labelledby="rulesTitle">
+        <div class="rules-copy">
+          <h2 id="rulesTitle">Comment jouer ?</h2>
+          <ol class="rules-list">
+            <li><strong>Un joueur est désigné Monarque.</strong> Son rôle est de décider combien de ragondins envoyer combattre l'intrus.</li>
+            <li><strong>Les conseillers jouent à tour de rôle.</strong> Chaque conseiller a un objectif secret : c'est le nombre de ragondins qu'il faut persuader le Monarque d'envoyer. Le conseiller se voit demander de donner un modificateur aux ragondins envoyés. Il peut être aussi farfelu que possible, n'hésitez pas !</li>
+            <li><strong>Le Monarque fait un premier constat.</strong> Une fois la composition du combat connue, le Monarque fait une première estimation <strong>qu'il garde secrète</strong> et explique son raisonnement aux conseillers.</li>
+            <li><strong>L'heure des plaidoyers..</strong> Les conseillers ont une minute chacun pour orienter et éventuellement changer l'opinion du Monarque. La mauvaise foi et la flatterie sont encouragées.</li>
+            <li><strong>Le Monarque rend sa décision finale.</strong> Après les conseils et le débat, il choisit le nombre final de ragondins à envoyer contre l'intrus.</li>
+            <li><strong>Le plus proche l'emporte.</strong> Les conseillers dont l'objectif est le plus proche de l'estimation finale marquent des points. Le Monarque en gagne aussi si son estimation est juste.</li>
+          </ol>
+        </div>
+        <img class="rules-art" src="./UI/ragondin_eau.png" alt="Un ragondin nage dans l'étang" />
+        <button class="button button-primary step-action" id="rulesContinue" type="button">Choisir le premier monarque</button>
+      </section>
+
+      <section class="panel monarch-select hidden" id="monarchPanel" aria-labelledby="monarchTitle">
+        <p class="eyebrow">Elections</p>
+        <h2 id="monarchTitle">Qui a vu un ragondin pour la dernière fois ?</h2>
+        <p class="turn-copy">Cette personne sera le premier Monarque. Le rôle passera à la personne suivante à chaque manche.</p>
+        <div class="monarch-grid" id="monarchChoices" role="group" aria-label="Choisir le premier Monarque"></div>
       </section>
 
       <!-- Section de jeu -->
       <section class="game hidden" id="gamePanel" aria-live="polite">
+        <section id="matchIntroPanel" class="intro hidden" aria-label="Présentation de la manche"></section>
         <div class="game-topline" id="gameTopline">
           <p class="round-label" id="roundLabel">Manche #1</p>
           <div class="game-actions">
             <button class="text-button" id="openScores" type="button">Scores</button>
-            <button class="text-button" id="newGame" type="button">Nouvelle partie</button>
           </div>
         </div>
 
@@ -69,7 +106,7 @@ Et la mononucléose ?
         <section class="characters" id="characterSection" aria-label="Personnages de la manche">
           <article class="character-panel">
             <div class="character-layout">
-              <img id="championImage" src="pingu.jpg" alt="" />
+              <img id="championImage" src="./images/pingu.jpg" alt="" />
               <div class="character-details">
                 <h2 id="championName">Champion</h2>
                 <span id="championDescription" class="description">Petit manchot du Pôle Sud</span>
@@ -81,7 +118,7 @@ Et la mononucléose ?
 
           <article class="character-panel" id="ragondinCharacterPanel">
             <div class="character-layout">
-              <img id="ragondinImage" src="ragondin.jpg" alt="" />
+              <img id="ragondinImage" src="./images/ragondin.jpg" alt="" />
               <div class="character-details">
                 <h2 id="ragondinName">Les ragondins</h2>
                 <span id="ragondinDescription" class="description">Soldat Rongeur</span>
@@ -95,7 +132,7 @@ Et la mononucléose ?
         <dialog class="turn-overlay" id="turnOverlay" aria-labelledby="turnOverlayTitle">
           <p class="eyebrow">À votre tour</p>
           <h2 class="turn-title" id="turnOverlayTitle"></h2>
-          <button class="button" id="readyForTurn" type="button">Je suis prêt·e</button>
+          <button class="button step-action" id="readyForTurn" type="button">Je suis prêt·e</button>
         </dialog>
         <section class="turn-panel" id="turnPanel"></section>
         <section class="result-panel hidden" id="resultPanel"></section>
@@ -109,6 +146,36 @@ Et la mononucléose ?
         </dialog>
       </section>
     </main>
+
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-haspopup="dialog" aria-controls="menuDialog">
+      <img class="menu-frame" src="./UI/carré_UI.png" alt="" />
+      <img class="menu-icon" src="./UI/ui_menu.png" alt="" />
+    </button>
+
+    <dialog class="menu-dialog" id="menuDialog" aria-labelledby="menuTitle">
+      <div class="menu-heading">
+        <h2 id="menuTitle">Menu</h2>
+        <button class="text-button" id="closeMenu" type="button">Fermer</button>
+      </div>
+      <div class="menu-options" id="menuOptions">
+        <button class="menu-option" id="openRulesFromMenu" type="button">Règles</button>
+        <div class="setting-controls">
+          <button class="setting-toggle" id="toggleSound" type="button" aria-pressed="false">
+            <img id="soundIcon" src="./UI/sound_off.png" alt="" />
+            <span id="soundLabel">Son désactivé</span>
+          </button>
+          <button class="setting-toggle" id="toggleVibration" type="button" aria-pressed="false">
+            <img id="vibrationIcon" src="./UI/vibration_off.png" alt="" />
+            <span id="vibrationLabel">Vibrations désactivées</span>
+          </button>
+         </div>
+
+        <button class="menu-option" id="openCredits" type="button">Crédits</button>
+        <button class="menu-option" id="restartGame" type="button">Recommencer la partie</button>
+      </div>
+
+
+    </dialog>
   </div>
 </body>
 </html>
