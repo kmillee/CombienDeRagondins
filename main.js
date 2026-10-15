@@ -490,7 +490,7 @@ function renderScores() {
 }
 
 function renderTurn() {
-    playSound("./SFX/laugh.mp3");
+    playSound("./SFX/laugh.ogg");
     document.getElementById("ragondinCharacterPanel").classList.remove("hidden");
 
     const turnPanel = document.getElementById("turnPanel");
