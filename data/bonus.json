@@ -20,7 +20,7 @@
         "level": 1
     },
     {
-        "name": "éloquent.e",
+        "name": "Éloquence",
         "level": 1
     },
     {
@@ -36,11 +36,11 @@
         "level": 1
     },
     {
-        "name": "maillet en bois",
+        "name": "Maillet en bois",
         "level": 1
     },
     {
-        "name": "Bonne flexbilité du bassin",
+        "name": "Bonne flexibilité du bassin",
         "level": 1
     },
     {
@@ -56,11 +56,11 @@
         "level": 1
     },
     {
-        "name": "Imbatable au karaoke ",
+        "name": "Imbattable au karaoke ",
         "level": 1
     },
     {
-        "name": "branche d'arbre",
+        "name": "Branche d'arbre",
         "level": 1
     },
     {
@@ -68,15 +68,15 @@
         "level": 1
     },
     {
-        "name": "Conaissances de la pêche ",
+        "name": "Connaissances de la pêche ",
         "level": 1
     },
     {
-        "name": "Acompagné.e d'un Chihuahua",
+        "name": "Acompagné.e d'un chihuahua",
         "level": 1
     },
     {
-        "name": "Crache de la glu",
+        "name": "Crache de la glue",
         "level": 1
     },
     {
@@ -100,7 +100,7 @@
         "level": 2
     },
     {
-        "name": "armure en cuire",
+        "name": "Armure en cuire",
         "level": 2
     },
     {
@@ -108,7 +108,7 @@
         "level": 2
     },
     {
-        "name": "Polyglote",
+        "name": "Polyglotte",
         "level": 2
     },
     {
@@ -116,11 +116,11 @@
         "level": 2
     },
     {
-        "name": "matraque ",
+        "name": "Matraque ",
         "level": 2
     },
     {
-        "name": "Acompagné.e d'un Bull Dog",
+        "name": "Acompagné.e d'un Bulldog",
         "level": 2
     },
     {
@@ -128,11 +128,11 @@
         "level": 2
     },
     {
-        "name": "imbatable aux échèques",
+        "name": "Imbattable aux échecs",
         "level": 2
     },
     {
-        "name": "lance des shurikens",
+        "name": "Lance des shurikens",
         "level": 2
     },
     {
@@ -152,15 +152,15 @@
         "level": 2
     },
     {
-        "name": "hacker",
+        "name": "Hacker",
         "level": 2
     },
     {
-        "name": "Grands sauts",
+        "name": "Fait des grands sauts",
         "level": 2
     },
     {
-        "name": "longs bras",
+        "name": "A des très longs bras",
         "level": 2
     },
     {
@@ -172,7 +172,7 @@
         "level": 2
     },
     {
-        "name": "Sur l'adrénalie",
+        "name": "Plein d'adrénaline",
         "level": 2
     },
     {
@@ -180,7 +180,7 @@
         "level": 3
     },
     {
-        "name": "Troisième bras",
+        "name": "A un troisième bras",
         "level": 3
     },
     {
@@ -196,7 +196,11 @@
         "level": 3
     },
     {
-        "name": " jetpack",
+        "name": "Peut se transformer en géant",
+        "level": 3
+    },
+    {
+        "name": "A un prototype de jetpack",
         "level": 3
     },
     {
@@ -204,39 +208,39 @@
         "level": 3
     },
     {
-        "name": "machète",
+        "name": "A une machette aiguisée",
         "level": 3
     },
     {
-        "name": "revolver à 6 coups ",
+        "name": "A un revolver à 6 coups ",
         "level": 3
     },
     {
-        "name": "vision rayon x",
+        "name": "Vision rayon X",
         "level": 3
     },
     {
-        "name": "Immunisé.e au poison",
+        "name": "Immunisé.e contre le poison",
         "level": 3
     },
     {
-        "name": "armure en metal",
+        "name": "Armure en métal",
         "level": 3
     },
     {
-        "name": "aura de terreur",
+        "name": "Aura de terreur",
         "level": 3
     },
     {
-        "name": "impossible à berner ",
+        "name": "Impossible à berner ",
         "level": 3
     },
     {
-        "name": "champion triathlète",
+        "name": "Champion triathlète",
         "level": 3
     },
     {
-        "name": "Savoir encyclopédique",
+        "name": "A un savoir encyclopédique",
         "level": 3
     },
     {
@@ -244,15 +248,15 @@
         "level": 3
     },
     {
-        "name": "béni des dieux",
+        "name": "Béni des dieux",
         "level": 3
     },
     {
-        "name": " hypnotisant",
+        "name": "Hypnotisant",
         "level": 3
     },
     {
-        "name": "Stimulants de combat",
+        "name": "Prend des stéroïdes",
         "level": 3
     }
 ]

@@ -352,7 +352,7 @@
         "niveau": 3
     },
     {
-        "name": "Lady Dimestrescu",
+        "name": "Lady Dimistescu",
         "image": "dimitrescu.jpg",
         "taille": 277,
         "poids": 130,
@@ -361,7 +361,7 @@
     },
     {
         "name": "Luke Sky Walker",
-        "image": "skywalker.jpg",
+        "image": "walker.jpg",
         "taille": 175,
         "poids": 75,
         "description": "Jedi, protagoniste Star Wars",
