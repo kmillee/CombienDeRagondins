@@ -33,11 +33,11 @@
 
 
 </p>
-        <button class="button button-primary step-action" id="introContinue" type="button">Inscrire les joueurs</button>
+        <button class="button button-primary step-action" id="introContinue" type="button">C'est parti !</button>
       </section>
 
       <section class="credits-screen hidden" id="creditsPanel" aria-labelledby="creditsTitle">
-        <p class="eyebrow">LE ROYAUME REMERCIE</p>
+        <p class="eyebrow">MEMBRES ESTIMES DU ROYAUME RAGONDIN</p>
         <h2 id="creditsTitle">Team Ragondins</h2>
         <div class="credits-character-grid" id="creditsCharacters" aria-label="Personnages et modificateurs"></div>
         <button class="button button-primary step-action" id="creditsBack" type="button">Retour au jeu</button>
@@ -69,12 +69,18 @@
         <div class="rules-copy">
           <h2 id="rulesTitle">Comment jouer ?</h2>
           <ol class="rules-list">
-            <li><strong>Un joueur est désigné Monarque.</strong> Son rôle est de décider combien de ragondins envoyer combattre l'intrus.</li>
-            <li><strong>Les conseillers jouent à tour de rôle.</strong> Chaque conseiller a un objectif secret : c'est le nombre de ragondins qu'il faut persuader le Monarque d'envoyer. Le conseiller se voit demander de donner un modificateur aux ragondins envoyés. Il peut être aussi farfelu que possible, n'hésitez pas !</li>
-            <li><strong>Le Monarque fait un premier constat.</strong> Une fois la composition du combat connue, le Monarque fait une première estimation <strong>qu'il garde secrète</strong> et explique son raisonnement aux conseillers.</li>
-            <li><strong>L'heure des plaidoyers..</strong> Les conseillers ont une minute chacun pour orienter et éventuellement changer l'opinion du Monarque. La mauvaise foi et la flatterie sont encouragées.</li>
-            <li><strong>Le Monarque rend sa décision finale.</strong> Après les conseils et le débat, il choisit le nombre final de ragondins à envoyer contre l'intrus.</li>
-            <li><strong>Le plus proche l'emporte.</strong> Les conseillers dont l'objectif est le plus proche de l'estimation finale marquent des points. Le Monarque en gagne aussi si son estimation est juste.</li>
+            <li><strong>Un joueur est désigné Monarque.</strong> 
+               <br>Son rôle est de décider combien de ragondins envoyer combattre l'intrus.</li>
+            <li><strong>Les conseillers jouent à tour de rôle.</strong> 
+               <br>Chaque conseiller a un objectif secret : c'est le nombre de ragondins qu'il faut persuader le Monarque d'envoyer. Le conseiller se voit demander de donner un modificateur aux ragondins envoyés. Il peut être aussi farfelu que possible, n'hésitez pas !</li>
+            <li><strong>Le Monarque fait un premier constat.</strong>  
+                <br>Une fois la composition du combat connue, le Monarque fait une première estimation <strong>qu'il garde secrète</strong> et explique son raisonnement aux conseillers.</li>
+            <li><strong>L'heure des plaidoyers.</strong> 
+                <br>Les conseillers ont une minute chacun pour orienter et éventuellement changer l'opinion du Monarque. La mauvaise foi et la flatterie sont encouragées.</li>
+            <li><strong>Le Monarque rend sa décision finale.</strong>  
+              <br>Après les conseils et le débat, il choisit le nombre final de ragondins à envoyer contre l'intrus.</li>
+            <li><strong>Le plus proche l'emporte.</strong> 
+               <br>Les conseillers dont l'objectif est le plus proche de l'estimation finale marquent des points. Le Monarque en gagne aussi si son estimation est juste.</li>
           </ol>
         </div>
         <img class="rules-art" src="./UI/ragondin_eau.png" alt="Un ragondin nage dans l'étang" />
@@ -130,9 +136,8 @@
         </section>
 
         <dialog class="turn-overlay" id="turnOverlay" aria-labelledby="turnOverlayTitle">
-          <p class="eyebrow">À votre tour</p>
           <h2 class="turn-title" id="turnOverlayTitle"></h2>
-          <button class="button step-action" id="readyForTurn" type="button">Je suis prêt·e</button>
+          <button class="button step-action" id="readyForTurn" type="button">Prêt·e</button>
         </dialog>
         <section class="turn-panel" id="turnPanel"></section>
         <section class="result-panel hidden" id="resultPanel"></section>
@@ -161,8 +166,8 @@
         <button class="menu-option" id="openRulesFromMenu" type="button">Règles</button>
         <div class="setting-controls">
           <button class="setting-toggle" id="toggleSound" type="button" aria-pressed="false">
-            <img id="soundIcon" src="./UI/sound_off.png" alt="" />
-            <span id="soundLabel">Son désactivé</span>
+            <img id="soundIcon" src="./UI/sound_on.png" alt="" />
+            <span id="soundLabel">Son activé</span>
           </button>
           <button class="setting-toggle" id="toggleVibration" type="button" aria-pressed="false">
             <img id="vibrationIcon" src="./UI/vibration_off.png" alt="" />

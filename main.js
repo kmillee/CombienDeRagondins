@@ -1,4 +1,13 @@
 
+//todo intégration du son
+// Trompette	trompette.ogg	Intrus dévoilé, Début débat
+// Trompette Roi	trompette_roi.ogg	Monarque élu
+// Bruits de pattes	bruit_pattounes.ogg	Changement de conseiller
+// Ragondin1	ragondin1.ogg	
+// Ragondin2	ragondin2.ogg	
+// Ragondin3	ragondin3.ogg	
+// Grattage	timer.ogg	Plus que 10sec au timer
+
 
 // --- Configuration et données ---
 const playerCount = 4;
@@ -119,9 +128,9 @@ document.getElementById("menuDialog").addEventListener("close", () => {
     document.getElementById("menuTitle").textContent = "Menu";
 });
 
-document.addEventListener("click", event => {
-    if (event.target.closest(".step-action, .monarch-choice")) playStepFeedback();
-});
+// document.addEventListener("click", event => {
+//     if (event.target.closest(".step-action, .monarch-choice")) playStepFeedback();
+// });
 
 updateSettingsButtons();
 
@@ -254,26 +263,26 @@ function updateSettingsButtons() {
     document.getElementById("vibrationLabel").textContent = vibrationEnabled ? "Vibrations activées" : "Vibrations désactivées";
 }
 
-function playStepFeedback() {
-    if (soundEnabled) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (AudioContextClass) {
-            const audioContext = new AudioContextClass();
-            const oscillator = audioContext.createOscillator();
-            const volume = audioContext.createGain();
-            oscillator.frequency.value = 560;
-            volume.gain.setValueAtTime(0.025, audioContext.currentTime);
-            volume.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.08);
-            oscillator.connect(volume);
-            volume.connect(audioContext.destination);
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.08);
-            oscillator.addEventListener("ended", () => audioContext.close(), { once: true });
-        }
-    }
+// function playStepFeedback() {
+//     if (soundEnabled) {
+//         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+//         if (AudioContextClass) {
+//             const audioContext = new AudioContextClass();
+//             const oscillator = audioContext.createOscillator();
+//             const volume = audioContext.createGain();
+//             oscillator.frequency.value = 560;
+//             volume.gain.setValueAtTime(0.025, audioContext.currentTime);
+//             volume.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.08);
+//             oscillator.connect(volume);
+//             volume.connect(audioContext.destination);
+//             oscillator.start();
+//             oscillator.stop(audioContext.currentTime + 0.08);
+//             oscillator.addEventListener("ended", () => audioContext.close(), { once: true });
+//         }
+//     }
 
-    if (vibrationEnabled && navigator.vibrate) navigator.vibrate(24);
-}
+//     if (vibrationEnabled && navigator.vibrate) navigator.vibrate(24);
+// }
 
 
 function startRound() {
@@ -350,11 +359,7 @@ function startRound() {
 }
 
 function revealMatch() {
-    if (soundEnabled) {
-        const trumpetSound = new Audio("./SFX/trompette.ogg");
-        trumpetSound.volume = 0.8;
-        trumpetSound.play().catch(() => {});
-    }
+    playSound("./SFX/trompette.ogg");
 
     document.getElementById("gameTopline").classList.remove("hidden");
     document.getElementById("characterSection").classList.remove("hidden");
@@ -420,13 +425,12 @@ async function renderCreditsCards() {
             createElement("span", "description", ragondin.description)
         );
 
-        const modifiersHeading = createElement("h4", "credit-modifiers-title", "Modificateurs tirés au sort");
         const modifiers = document.createElement("ul");
         modifiers.append(
             createElement("li", "bonus", pickRandom(bonus).name),
             createElement("li", "malus", pickRandom(malus).name)
         );
-        details.append(modifiersHeading, modifiers);
+        details.append( modifiers);
         layout.append(image, details);
         panel.append(layout);
         return panel;
@@ -486,6 +490,7 @@ function renderScores() {
 }
 
 function renderTurn() {
+    playSound("./SFX/laugh.mp3");
     document.getElementById("ragondinCharacterPanel").classList.remove("hidden");
 
     const turnPanel = document.getElementById("turnPanel");
@@ -754,6 +759,8 @@ function getRoundOutcome(guess) {
 }
 
 function renderResult(guess, distances, winners, winnerChanged, closestDistance) {
+
+    playSound("./SFX/trompette_roi.ogg");
     const prevWinner = getRoundOutcome(round.firstGuess).winners;
 
     const result = document.getElementById("resultPanel");
@@ -856,6 +863,13 @@ function pickRandom(items) {
 }
 
 
+function playSound(soundFile, volume = 0.5) {
+        if (soundEnabled) {
+        const trumpetSound = new Audio(soundFile);
+        trumpetSound.volume = volume;
+        trumpetSound.play().catch(() => {});
+    }
+}
 
 // --- Gestions des données ---
 async function loadJSON(name) {
